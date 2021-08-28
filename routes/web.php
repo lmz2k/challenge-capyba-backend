@@ -10,6 +10,6 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     });
 
     $router->group(['prefix' => 'vacancy'], function () use ($router){
-        $router->get('/', 'VacanciesController@show');
+        $router->get('/', 'VacanciesController@getVacanciesList');
     });
 });

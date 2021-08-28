@@ -19,6 +19,9 @@ class CreateUserTable extends Migration
                 $table->increments('id');
 
                 $table->string('name')
+                    ->nullable(false);
+
+                $table->string('email')
                     ->unique()
                     ->nullable(false);
 
@@ -31,9 +34,6 @@ class CreateUserTable extends Migration
                 $table->boolean('verified')
                     ->nullable(false)
                     ->default(false);
-
-                $table->dateTime('last_login');
-                $table->dateTime('last_logout');
 
                 $table->timestamps();
                 $table->softDeletes();

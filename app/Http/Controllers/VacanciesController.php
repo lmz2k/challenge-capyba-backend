@@ -16,9 +16,42 @@ class VacanciesController extends Controller
         $this->vacancyService = $vacancyService;
     }
 
-    public function show(Request $request): JsonResponse
+    public function getVacanciesList(Request $request): JsonResponse
     {
-        $result = $this->vacancyService->show();
+        $this->validate($request, [
+            'search' => 'string',
+            'hiring_mode' => 'in:PJ,CLT,BOTH',
+            'occupation' => 'in:BACK,FRONT,FULL',
+            'is_home_office' => 'bool',
+            'city_id' => 'integer',
+            'salary' => 'in:asc,desc',
+            'created_at' => 'in:asc,desc',
+            'page' => 'required|integer',
+            'per_page' => 'required|integer'
+        ]);
+
+        $search = $request->input('search');
+        $hiringMode = $request->input('hiring_mode');
+        $occupation = $request->input('occupation');
+        $isHomeOffice = $request->input('is_home_office');
+        $cityId = $request->input('city_id');
+        $salary = $request->input('salary');
+        $createdAt = $request->input('created_at');
+        $page = $request->input('page');
+        $perPage = $request->input('per_page');
+
+        $result = $this->vacancyService->getVacanciesList(
+            $search,
+            $hiringMode,
+            $occupation,
+            $isHomeOffice,
+            $cityId,
+            $salary,
+            $createdAt,
+            $page,
+            $perPage
+        );
+
         return response()->json($result, 200);
     }
 }

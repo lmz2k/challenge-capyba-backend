@@ -14,8 +14,27 @@ class VacancyService implements VacancyServiceInterface
         $this->vacancyRepository = $vacancyRepository;
     }
 
-    public function show()
-    {
-        return $this->vacancyRepository->show();
+    public function getVacanciesList(
+        $search,
+        $hiringMode,
+        $occupation,
+        $isHomeOffice,
+        $cityId,
+        $salary,
+        $createdAt,
+        $page,
+        $perPage
+    ) {
+        return $this->vacancyRepository->getVacanciesList(
+            $search,
+            $hiringMode,
+            $occupation,
+            $isHomeOffice,
+            $cityId,
+            $salary,
+            $createdAt,
+            $page,
+            $perPage
+        );
     }
 }
