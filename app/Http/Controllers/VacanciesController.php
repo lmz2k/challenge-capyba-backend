@@ -23,7 +23,7 @@ class VacanciesController extends Controller
             'hiring_mode' => 'in:PJ,CLT,BOTH',
             'occupation' => 'in:BACK,FRONT,FULL',
             'is_home_office' => 'bool',
-            'city_id' => 'required_unless:is_home_office, 1',
+            'city_id' => 'integer',
             'salary' => 'in:asc,desc',
             'created_at' => 'in:asc,desc',
             'page' => 'required|integer',
