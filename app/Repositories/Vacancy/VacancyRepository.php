@@ -23,12 +23,12 @@ class VacancyRepository implements VacancyRepositoryInterface
             ->leftJoin('cities', 'cities.id', '=', 'vacancies.city_id')
             ->leftJoin('states', 'states.id', '=', 'cities.state_id');
 
-        $this->filterBySearch($query, $search);
-        $this->filterByHiringMode($query, $hiringMode);
-        $this->filterByOccupation($query, $occupation);
-        $this->filterByLocal($query, $isHomeOffice, $cityId);
-        $this->orderByColumn($query, $salary, 'salary');
-        $this->orderByColumn($query, $createdAt, 'created_at');
+        $this->filterListBySearch($query, $search);
+        $this->filterListByHiringMode($query, $hiringMode);
+        $this->filterListByOccupation($query, $occupation);
+        $this->filterListByLocal($query, $isHomeOffice, $cityId);
+        $this->orderListByColumn($query, $salary, 'salary');
+        $this->orderListByColumn($query, $createdAt, 'created_at');
 
 
         return $query->paginate(
@@ -54,7 +54,7 @@ class VacancyRepository implements VacancyRepositoryInterface
             $page);
     }
 
-    private function filterBySearch(&$query, $search)
+    private function filterListBySearch(&$query, $search)
     {
         if (!isset($search)) {
             return;
@@ -69,7 +69,7 @@ class VacancyRepository implements VacancyRepositoryInterface
         );
     }
 
-    private function filterByHiringMode(&$query, $hiringMode)
+    private function filterListByHiringMode(&$query, $hiringMode)
     {
         if (!isset($hiringMode)) {
             return;
@@ -80,7 +80,7 @@ class VacancyRepository implements VacancyRepositoryInterface
         }
     }
 
-    private function filterByOccupation(&$query, $occupation)
+    private function filterListByOccupation(&$query, $occupation)
     {
         if (!isset($occupation)) {
             return;
@@ -89,7 +89,7 @@ class VacancyRepository implements VacancyRepositoryInterface
         $query->where('vacancies.occupation', '=', $occupation);
     }
 
-    private function filterByLocal(&$query, $isHomeOffice, $cityId)
+    private function filterListByLocal(&$query, $isHomeOffice, $cityId)
     {
         if (isset($isHomeOffice)) {
             $query->where('vacancies.is_home_office', '=', $isHomeOffice);
@@ -100,7 +100,7 @@ class VacancyRepository implements VacancyRepositoryInterface
         }
     }
 
-    private function orderByColumn(&$query, $order, $column)
+    private function orderListByColumn(&$query, $order, $column)
     {
         $selectedOrder = $order ?? 'asc';
 
