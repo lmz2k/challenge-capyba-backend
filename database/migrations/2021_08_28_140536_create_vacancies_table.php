@@ -13,7 +13,7 @@ class CreateVacanciesTable extends Migration
      */
     public function up()
     {
-        Schema::create('Vacancies', function (Blueprint $table) {
+        Schema::create('vacancies', function (Blueprint $table) {
             $table->increments('id');
 
             $table->string('title')
@@ -42,11 +42,11 @@ class CreateVacanciesTable extends Migration
 
             $table->foreign('city_id')
                 ->references('id')
-                ->on('Cities');
+                ->on('cities');
 
             $table->foreign('announcement_by')
                 ->references('id')
-                ->on('Users');
+                ->on('users');
 
             $table->timestamps();
             $table->softDeletes();
@@ -60,6 +60,6 @@ class CreateVacanciesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('Vacancies');
+        Schema::dropIfExists('vacancies');
     }
 }
