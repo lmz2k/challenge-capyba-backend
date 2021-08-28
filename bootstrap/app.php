@@ -60,7 +60,8 @@ $app->singleton(
 */
 
 $app->configure('app');
-
+$app->configure('filesystems');
+$app->register(Illuminate\Filesystem\FilesystemServiceProvider::class);
 /*
 |--------------------------------------------------------------------------
 | Register Middleware
