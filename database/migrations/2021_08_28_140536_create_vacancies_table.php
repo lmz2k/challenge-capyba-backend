@@ -13,44 +13,47 @@ class CreateVacanciesTable extends Migration
      */
     public function up()
     {
-        Schema::create('Vacancies', function (Blueprint $table) {
-            $table->increments('id');
+        Schema::create(
+            'vacancies',
+            function (Blueprint $table) {
+                $table->increments('id');
 
-            $table->string('title')
-                ->nullable(false);
+                $table->string('title')
+                    ->nullable(false);
 
-            $table->text('description')
-                ->nullable(false);
+                $table->text('description')
+                    ->nullable(false);
 
-            $table->double('salary')
-                ->nullable(false);
+                $table->double('salary')
+                    ->nullable(false);
 
-            $table->enum('occupation', ["BACK", "FRONT", "FULL"])
-                ->nullable(false);
+                $table->enum('occupation', ["BACK", "FRONT", "FULL"])
+                    ->nullable(false);
 
-            $table->boolean('is_home_office')
-                ->nullable(false);
+                $table->boolean('is_home_office')
+                    ->nullable(false);
 
-            $table->enum('hiring_mode', ["PJ", "CLT", "EITHER"])
-                ->nullable(false);
+                $table->enum('hiring_mode', ["PJ", "CLT", "EITHER"])
+                    ->nullable(false);
 
-            $table->integer('city_id')
-                ->unsigned();
+                $table->integer('city_id')
+                    ->unsigned();
 
-            $table->unsignedInteger('announcement_by')
-                ->unsigned();
+                $table->unsignedInteger('announcement_by')
+                    ->unsigned();
 
-            $table->foreign('city_id')
-                ->references('id')
-                ->on('Cities');
+                $table->foreign('city_id')
+                    ->references('id')
+                    ->on('cities');
 
-            $table->foreign('announcement_by')
-                ->references('id')
-                ->on('Users');
+                $table->foreign('announcement_by')
+                    ->references('id')
+                    ->on('users');
 
-            $table->timestamps();
-            $table->softDeletes();
-        });
+                $table->timestamps();
+                $table->softDeletes();
+            }
+        );
     }
 
     /**
@@ -60,6 +63,6 @@ class CreateVacanciesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('Vacancies');
+        Schema::dropIfExists('vacancies');
     }
 }
