@@ -4,7 +4,7 @@
 namespace App\Repositories\Vacancy;
 
 
-class VacancyRepositoryInterface
+interface VacancyRepositoryInterface
 {
-
+    public function show();
 }
