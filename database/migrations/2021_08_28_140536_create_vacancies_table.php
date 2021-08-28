@@ -33,7 +33,7 @@ class CreateVacanciesTable extends Migration
                 $table->boolean('is_home_office')
                     ->nullable(false);
 
-                $table->enum('hiring_mode', ["PJ", "CLT", "EITHER"])
+                $table->enum('hiring_mode', ["PJ", "CLT", "BOTH"])
                     ->nullable(false);
 
                 $table->integer('city_id')
