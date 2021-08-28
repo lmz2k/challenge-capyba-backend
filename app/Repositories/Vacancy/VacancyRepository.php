@@ -4,6 +4,7 @@
 namespace App\Repositories\Vacancy;
 
 use App\Models\Vacancy;
+use Illuminate\Support\Facades\DB;
 
 class VacancyRepository implements VacancyRepositoryInterface
 {
@@ -30,7 +31,27 @@ class VacancyRepository implements VacancyRepositoryInterface
         $this->orderByColumn($query, $createdAt, 'created_at');
 
 
-        return $query->paginate($perPage, ['*'], 'page', $page);
+        return $query->paginate(
+            $perPage,
+            [
+                'vacancies.id as id',
+                'vacancies.title as title',
+                'vacancies.description as description',
+                'vacancies.is_home_office as home_office',
+                'vacancies.occupation as occupation',
+                'vacancies.salary as salary',
+                'cities.name as city',
+                'states.name as state',
+                DB::raw(
+                    "CASE
+                        WHEN vacancies.hiring_mode = 'BOTH'
+                        THEN 'PJ E CLT'
+                        ELSE vacancies.hiring_mode
+                     END as hiring_mode"
+                )
+            ],
+            'page',
+            $page);
     }
 
     private function filterBySearch(&$query, $search)
@@ -83,6 +104,6 @@ class VacancyRepository implements VacancyRepositoryInterface
     {
         $selectedOrder = $order ?? 'asc';
 
-        $query->orderBy('vacancies'.$column, $selectedOrder);
+        $query->orderBy('vacancies.'.$column, $selectedOrder);
     }
 }
