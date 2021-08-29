@@ -3,6 +3,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\AlreadyVerified;
 use App\Exceptions\NotVerifiedException;
 use App\Services\Auth\AuthServiceInterface;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -13,7 +14,6 @@ use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
-
     private AuthServiceInterface $authService;
 
     public function __construct(AuthServiceInterface $authService)
@@ -76,7 +76,6 @@ class AuthController extends Controller
 
             return response()->json($result, 201);
         } catch (\Exception $e) {
-
             DB::rollBack();
 
             if ($e instanceof ModelNotFoundException) {
@@ -100,6 +99,40 @@ class AuthController extends Controller
                 return response()->json(
                     ['message' => 'Wrong password'],
                     403
+                );
+            }
+        }
+    }
+
+    public function resendCode(Request $request): JsonResponse
+    {
+        try {
+            $this->validate(
+                $request,
+                ['email' => 'email|required']
+            );
+
+            $email = $request->input('email');
+
+            DB::beginTransaction();
+            $result = $this->authService->resendCode($email);
+            DB::commit();
+
+            return response()->json($result, 201);
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            if ($e instanceof ModelNotFoundException) {
+                return response()->json(
+                    ['message' => 'Email not registered on system'],
+                    404
+                );
+            }
+
+            if ($e instanceof AlreadyVerified) {
+                return response()->json(
+                    ['message' => 'Email already verified on system'],
+                    401
                 );
             }
         }

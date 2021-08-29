@@ -2,6 +2,7 @@
 
 namespace App\Services\Auth;
 
+use App\Exceptions\AlreadyVerified;
 use App\Exceptions\NotVerifiedException;
 use App\Exceptions\WrongPasswordException;
 use App\Repositories\Auth\AuthRepositoryInterface;
@@ -57,13 +58,32 @@ class AuthService implements AuthServiceInterface
         $user = $this->userRepository->findUserByEmail($email);
 
         $this->validatePassword($user, $password);
-        $this->validateVerified($user);
+        $this->validateEmailNotVerified($user);
 
         $jwt = $this->generateToken($user);
 
         return [
             'user' => $user,
             'token' => $jwt,
+        ];
+    }
+
+    /**
+     * @param $email
+     * @return array
+     * @throws AlreadyVerified
+     */
+    public function resendCode($email): array
+    {
+        $user = $this->userRepository->findUserByEmail($email);
+
+        $this->validateEmailAlreadyVerified($user);
+        $this->invalidateOldCodes($user);
+        $token = $this->registerCodeAndSendByEmail($user);
+
+        return [
+            'user' => $user,
+            'token_to_validate_code' => $token
         ];
     }
 
@@ -77,14 +97,22 @@ class AuthService implements AuthServiceInterface
         return $jwt;
     }
 
-    private function validateVerified($user): bool
+    private function validateEmailAlreadyVerified($user): bool
+    {
+        if ($user->verified) {
+            throw new AlreadyVerified();
+        }
+        return $user->verified;
+    }
+
+    private function validateEmailNotVerified($user): bool
     {
         if (!$user->verified) {
             $this->invalidateOldCodes($user);
             $newJwt = $this->registerCodeAndSendByEmail($user);
             throw new NotVerifiedException($newJwt);
         }
-        return true;
+        return $user->verified;
     }
 
     private function validatePassword($user, $password)
