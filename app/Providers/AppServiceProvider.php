@@ -8,6 +8,8 @@ use App\Services\Auth\AuthService;
 use App\Services\Auth\AuthServiceInterface;
 use App\Services\Ftp\FtpService;
 use App\Services\Ftp\FtpServiceInterface;
+use App\Services\Hash\HashService;
+use App\Services\Hash\HashServiceInterface;
 use App\Services\Mail\MailService;
 use App\Services\Mail\MailServiceInterface;
 use Illuminate\Support\ServiceProvider;
@@ -49,6 +51,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             MailServiceInterface::class,
             MailService::class,
+        );
+
+        $this->app->bind(
+            HashServiceInterface::class,
+            HashService::class,
         );
 
         $this->app->bind(

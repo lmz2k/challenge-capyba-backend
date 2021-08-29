@@ -23,18 +23,33 @@ class AuthService implements AuthServiceInterface
         $this->mailService = $mailService;
     }
 
-    public function register($name, $email, $password, $photo)
+    public function register($name, $email, $password, $photo): array
     {
         $passwordHash = Hash::make($password);
         $photoPath = $this->ftpService->uploadFile($photo);
 
-        $user = $this->authRepository->register(
-            $name,
-            $email,
-            $passwordHash,
-            $photoPath
-        );
+        $user = $this->authRepository->register($name, $email, $passwordHash, $photoPath);
+        $code = $this->generateConfirmationCode();
+        $token = $this->registerCodeAndSendByEmail($code, $user);
 
-        $this->mailService->sendConfirmationCode(1234, $email, $name);
+        return [
+            'user' => $user,
+            'token_to_validate_code' => $token
+        ];
+    }
+
+    private function registerCodeAndSendByEmail($code, $user)
+    {
+        $email = $user->email;
+        $name = $user->name;
+        $codeHash = Hash::make($code);
+
+        $this->mailService->sendConfirmationCode($code, $email, $name);
+        $this->registerCodeValidation($codeHash,);
+    }
+
+    private function generateConfirmationCode(): int
+    {
+        return random_int(10000, 999999);
     }
 }
