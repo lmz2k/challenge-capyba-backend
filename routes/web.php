@@ -13,6 +13,11 @@ $router->group(['prefix' => 'api'], function () use ($router) {
             $router->post('/register', 'AuthController@register');
             $router->post('/login', 'AuthController@login');
             $router->post('/logout', 'VacanciesController@getVacanciesList');
+
+            $router->group(['prefix' => 'code'], function () use ($router){
+                $router->post('/confirm', 'AuthController@confirmCode');
+                $router->post('/resend', 'AuthController@resendCode');
+            });
         });
 
         $router->group(['prefix' => 'vacancy'], function () use ($router) {
