@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Repositories\Auth\AuthRepository;
 use App\Repositories\Auth\AuthRepositoryInterface;
+use App\Repositories\User\UserRepository;
+use App\Repositories\User\UserRepositoryInterface;
 use App\Services\Auth\AuthService;
 use App\Services\Auth\AuthServiceInterface;
 use App\Services\Ftp\FtpService;
@@ -63,6 +65,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             JwtServiceInterface::class,
             JwtService::class,
+        );
+
+        $this->app->bind(
+            UserRepositoryInterface::class,
+            UserRepository::class,
         );
 
         $this->app->bind(
