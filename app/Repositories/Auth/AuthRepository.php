@@ -5,6 +5,7 @@ namespace App\Repositories\Auth;
 
 
 use App\Models\RegisterConfirm;
+use App\Models\TokenTacking;
 use App\Models\User;
 
 class AuthRepository implements AuthRepositoryInterface
@@ -25,14 +26,34 @@ class AuthRepository implements AuthRepositoryInterface
         return $user;
     }
 
-    public function registerCodeValidation($codeHash, $token): RegisterConfirm
+    public function registerCodeValidation($userId, $codeHash, $token): RegisterConfirm
     {
         $registerConfirm = new RegisterConfirm();
 
+        $registerConfirm->user_id = $userId;
         $registerConfirm->token = $token;
         $registerConfirm->code_hash = $codeHash;
         $registerConfirm->save();
 
         return $registerConfirm;
+    }
+
+    public function invalidateOldCodes($userId)
+    {
+        $codes = RegisterConfirm::where('user_id', $userId)->get();
+
+        $codesIds = $codes->pluck('id');
+
+        RegisterConfirm::destroy($codesIds);
+    }
+
+    public function trackToken($jwt): TokenTacking
+    {
+        $tokenTracking = new TokenTacking();
+
+        $tokenTracking->token = $jwt;
+        $tokenTracking->save();
+
+        return $tokenTracking;
     }
 }

@@ -13,5 +13,9 @@ interface AuthRepositoryInterface
         $photoPath
     );
 
-    public function registerCodeValidation($codeHash, $token);
+    public function registerCodeValidation($userId, $codeHash, $token);
+
+    public function invalidateOldCodes($userId);
+
+    public function trackToken($jwt);
 }

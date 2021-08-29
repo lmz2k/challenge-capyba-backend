@@ -3,7 +3,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\NotVerifiedException;
 use App\Services\Auth\AuthServiceInterface;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -51,7 +53,50 @@ class AuthController extends Controller
                     201
                 );
             }
-            return response()->json($e, 500);
+        }
+    }
+
+    public function login(Request $request): JsonResponse
+    {
+        try {
+            $this->validate(
+                $request,
+                [
+                    'email' => 'email|required',
+                    'password' => 'string|required',
+                ]
+            );
+
+            $email = $request->input('email');
+            $password = $request->input('password');
+
+            $result = $this->authService->login($email, $password);
+
+            return response()->json($result, 201);
+        } catch (\Exception $e) {
+            if ($e instanceof ModelNotFoundException) {
+                return response()->json(
+                    ['message' => 'Email not registered on system'],
+                    404
+                );
+            }
+
+            if ($e instanceof NotVerifiedException) {
+                return response()->json(
+                    [
+                        'message' => 'Email not verified, new code has been sent to email',
+                        'token_to_validate_code' => $e->getMessage(),
+                    ],
+                    403
+                );
+            }
+
+            if ($e instanceof NotVerifiedException) {
+                return response()->json(
+                    ['message' => 'Wrong password'],
+                    403
+                );
+            }
         }
     }
 }
