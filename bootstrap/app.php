@@ -119,7 +119,6 @@ $app->router->group(
 $app->configure('mail');
 $app->configure('services');
 $app->register(Illuminate\Mail\MailServiceProvider::class);
-$app->register(Sichikawa\LaravelSendgridDriver\MailServiceProvider::class);
 
 unset($app->availableBindings['mailer']);
 

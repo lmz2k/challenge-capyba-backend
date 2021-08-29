@@ -10,6 +10,8 @@ use App\Services\Ftp\FtpService;
 use App\Services\Ftp\FtpServiceInterface;
 use App\Services\Hash\HashService;
 use App\Services\Hash\HashServiceInterface;
+use App\Services\Jwt\JwtService;
+use App\Services\Jwt\JwtServiceInterface;
 use App\Services\Mail\MailService;
 use App\Services\Mail\MailServiceInterface;
 use Illuminate\Support\ServiceProvider;
@@ -56,6 +58,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             HashServiceInterface::class,
             HashService::class,
+        );
+
+        $this->app->bind(
+            JwtServiceInterface::class,
+            JwtService::class,
         );
 
         $this->app->bind(
