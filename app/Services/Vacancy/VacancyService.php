@@ -37,4 +37,53 @@ class VacancyService implements VacancyServiceInterface
             $perPage
         );
     }
+
+    public function getVacancy($vacancyId)
+    {
+        return $this->vacancyRepository->getVacancy($vacancyId);
+    }
+
+    public function createVacancy(
+        $userId,
+        $title,
+        $description,
+        $salary,
+        $isHomeOffice,
+        $occupation,
+        $cityId,
+        $hiringMode
+    ){
+        return $this->vacancyRepository->createVacancy(
+            $userId,
+            $title,
+            $description,
+            $salary,
+            $isHomeOffice,
+            $occupation,
+            $cityId,
+            $hiringMode
+        );
+    }
+
+    public function updateVacancy(
+        $id,
+        $title,
+        $description,
+        $salary,
+        $isHomeOffice,
+        $occupation,
+        $cityId,
+        $hiringMode
+    ) {
+        return $this->vacancyRepository->updateVacancy(
+            $id,
+            $title,
+            $description,
+            $salary,
+            $isHomeOffice,
+            $occupation,
+            $cityId,
+            $hiringMode
+        );
+    }
 }
