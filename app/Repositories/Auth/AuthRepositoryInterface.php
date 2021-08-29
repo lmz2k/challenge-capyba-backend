@@ -12,4 +12,6 @@ interface AuthRepositoryInterface
         $passwordHash,
         $photoPath
     );
+
+    public function registerCodeValidation($codeHash, $token);
 }

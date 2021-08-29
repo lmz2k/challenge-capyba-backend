@@ -13,7 +13,7 @@ class CreateRegisterConfirmTable extends Migration
      */
     public function up()
     {
-        Schema::create('register_confirm', function (Blueprint $table) {
+        Schema::create('register_confirms', function (Blueprint $table) {
             $table->id();
             $table->longText('token');
             $table->string('code_hash');
@@ -29,6 +29,6 @@ class CreateRegisterConfirmTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('RegisterConfirm');
+        Schema::dropIfExists('register_confirms');
     }
 }

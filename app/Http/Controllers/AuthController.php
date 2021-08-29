@@ -51,6 +51,7 @@ class AuthController extends Controller
                     201
                 );
             }
+            return response()->json($e, 500);
         }
     }
 }

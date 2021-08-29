@@ -53,9 +53,10 @@ class AuthService implements AuthServiceInterface
         $codeHash = $this->hashService->create($code);
         $jwt = $this->jwtService->create(['id' => $user->id]);
 
-        dd($jwt);
         $this->mailService->sendConfirmationCode($code, $email, $name);
-        $this->registerCodeValidation($codeHash,);
+        $this->authRepository->registerCodeValidation($jwt, $codeHash);
+
+        return $jwt;
     }
 
     private function generateConfirmationCode(): int

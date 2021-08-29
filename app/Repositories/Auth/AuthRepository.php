@@ -4,6 +4,7 @@
 namespace App\Repositories\Auth;
 
 
+use App\Models\RegisterConfirm;
 use App\Models\User;
 
 class AuthRepository implements AuthRepositoryInterface
@@ -22,5 +23,16 @@ class AuthRepository implements AuthRepositoryInterface
         $user->save();
 
         return $user;
+    }
+
+    public function registerCodeValidation($codeHash, $token): RegisterConfirm
+    {
+        $registerConfirm = new RegisterConfirm();
+
+        $registerConfirm->token = $token;
+        $registerConfirm->code_hash = $codeHash;
+        $registerConfirm->save();
+
+        return $registerConfirm;
     }
 }
