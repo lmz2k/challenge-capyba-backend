@@ -1,22 +1,26 @@
 <?php
 
-
 namespace App\Services\Auth;
-
 
 use App\Repositories\Auth\AuthRepositoryInterface;
 use App\Services\Ftp\FtpServiceInterface;
+use App\Services\Mail\MailServiceInterface;
 use Illuminate\Support\Facades\Hash;
 
 class AuthService implements AuthServiceInterface
 {
     private FtpServiceInterface $ftpService;
     private AuthRepositoryInterface $authRepository;
+    private MailServiceInterface $mailService;
 
-    public function __construct(FtpServiceInterface $ftpService, AuthRepositoryInterface $authRepository)
-    {
+    public function __construct(
+        FtpServiceInterface $ftpService,
+        AuthRepositoryInterface $authRepository,
+        MailServiceInterface $mailService
+    ) {
         $this->ftpService = $ftpService;
         $this->authRepository = $authRepository;
+        $this->mailService = $mailService;
     }
 
     public function register($name, $email, $password, $photo)
@@ -24,11 +28,13 @@ class AuthService implements AuthServiceInterface
         $passwordHash = Hash::make($password);
         $photoPath = $this->ftpService->uploadFile($photo);
 
-        return $this->authRepository->register(
+        $user = $this->authRepository->register(
             $name,
             $email,
             $passwordHash,
             $photoPath
         );
+
+        $this->mailService->sendConfirmationCode(1234, $email, $name);
     }
 }
