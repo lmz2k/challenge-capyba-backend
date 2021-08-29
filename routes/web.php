@@ -10,7 +10,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
         );
 
         $router->group(['prefix' => 'auth'], function () use ($router) {
-            $router->post('/register', 'VacanciesController@getVacanciesList');
+            $router->post('/register', 'AuthController@register');
             $router->post('/login', 'VacanciesController@getVacanciesList');
             $router->post('/logout', 'VacanciesController@getVacanciesList');
         });
