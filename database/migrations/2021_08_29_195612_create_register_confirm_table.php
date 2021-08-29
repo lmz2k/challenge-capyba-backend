@@ -15,10 +15,15 @@ class CreateRegisterConfirmTable extends Migration
     {
         Schema::create('register_confirms', function (Blueprint $table) {
             $table->id();
+            $table->unsignedInteger('user_id');
             $table->longText('token');
             $table->string('code_hash');
             $table->timestamps();
             $table->softDeletes();
+
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users');
         });
     }
 
