@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\AlreadyVerified;
 use App\Exceptions\NotVerifiedException;
+use App\Exceptions\WrongCodeException;
 use App\Services\Auth\AuthServiceInterface;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
@@ -107,7 +108,21 @@ class AuthController extends Controller
     public function confirmCode(Request $request): JsonResponse
     {
         try {
+            $this->validate($request, ['code' => 'integer|required']);
+
+            $code = $request->input('code');
+            $authorizationHeader = $request->header('Authorization');
+            $token = str_replace('Bearer ', '', $authorizationHeader);
+
+            $result = $this->authService->confirmCode($token, $code);
+            return response()->json($result, 201);
         } catch (\Exception $e) {
+            if ($e instanceof WrongCodeException) {
+                return response()->json(
+                    ['message' => 'Code is different'],
+                    403
+                );
+            }
         }
     }
 
