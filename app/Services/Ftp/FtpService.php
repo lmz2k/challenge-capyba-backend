@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\Storage;
 class FtpService implements FtpServiceInterface
 {
 
+    /**
+     * @param $file
+     * @return string
+     */
     public function uploadFile($file): string
     {
         $fileName = $file->hashName();
