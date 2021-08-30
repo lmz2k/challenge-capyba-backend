@@ -4,9 +4,11 @@ namespace App\Services\Auth;
 
 use App\Exceptions\AlreadyVerified;
 use App\Exceptions\NotVerifiedException;
+use App\Exceptions\WrongCodeException;
 use App\Exceptions\WrongPasswordException;
 use App\Repositories\Auth\AuthRepositoryInterface;
 use App\Repositories\User\UserRepository;
+use App\Repositories\User\UserRepositoryInterface;
 use App\Services\Ftp\FtpServiceInterface;
 use App\Services\Hash\HashServiceInterface;
 use App\Services\Jwt\JwtServiceInterface;
@@ -21,7 +23,7 @@ class AuthService implements AuthServiceInterface
     private JwtServiceInterface $jwtService;
 
     private AuthRepositoryInterface $authRepository;
-    private UserRepository $userRepository;
+    private UserRepositoryInterface $userRepository;
 
     public function __construct(
         FtpServiceInterface $ftpService,
@@ -88,6 +90,34 @@ class AuthService implements AuthServiceInterface
         ];
     }
 
+    public function confirmCode($token, $code)
+    {
+        $registerConfirms = $this->authRepository->getRegisterConfirmFromToken($token);
+        $codeHash = $registerConfirms->code_hash;
+        $user = $this->userRepository->findUserById($registerConfirms->user_id);
+
+        $this->checkCodeIsEqual($codeHash, $code);
+
+        $this->invalidateOldCodes($user);
+        $jwt = $this->generateToken($user);
+
+        return [
+            'user' => $user,
+            'token' => $jwt
+        ];
+    }
+
+    public function checkCodeIsEqual($codeHash, $code)
+    {
+        $isValid = $this->hashService->validate($codeHash, $code);
+
+        if (!$isValid) {
+            throw new WrongCodeException();
+        }
+
+        return $isValid;
+    }
+
     private function generateToken($user)
     {
         $object = $user->toArray();
@@ -148,7 +178,7 @@ class AuthService implements AuthServiceInterface
         );
 
         $this->mailService->sendConfirmationCode($code, $email, $name);
-        $this->authRepository->registerCodeValidation($userId, $jwt, $codeHash);
+        $this->authRepository->registerCodeValidation($userId, $codeHash, $jwt);
 
         return $jwt;
     }
