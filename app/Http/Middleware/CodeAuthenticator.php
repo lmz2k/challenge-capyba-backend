@@ -33,15 +33,14 @@ class CodeAuthenticator
                 return response()->json(['message' => 'Invalid token'], 403);
             }
 
-
-            RegisterConfirm::where('code_hash', $token)->firstOrFail();
+            RegisterConfirm::where('token', $token)->firstOrFail();
 
             return $next($request);
         } catch (\Exception $e) {
             $message = 'Wrong JWT';
 
             if ($e instanceof ModelNotFoundException) {
-                $message = 'Expired code';
+                $message = 'Expired JWT';
             }
 
             return response()->json(['message' => $message], 403);
