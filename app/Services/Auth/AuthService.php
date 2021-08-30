@@ -6,6 +6,7 @@ use App\Exceptions\AlreadyVerified;
 use App\Exceptions\NotVerifiedException;
 use App\Exceptions\WrongCodeException;
 use App\Exceptions\WrongPasswordException;
+use App\Models\User;
 use App\Repositories\Auth\AuthRepositoryInterface;
 use App\Repositories\User\UserRepository;
 use App\Repositories\User\UserRepositoryInterface;
@@ -42,6 +43,13 @@ class AuthService implements AuthServiceInterface
         $this->userRepository = $userRepository;
     }
 
+    /**
+     * @param $name
+     * @param $email
+     * @param $password
+     * @param $photo
+     * @return array
+     */
     public function register($name, $email, $password, $photo): array
     {
         $passwordHash = $this->hashService->create($password);
@@ -56,6 +64,13 @@ class AuthService implements AuthServiceInterface
         ];
     }
 
+    /**
+     * @param $email
+     * @param $password
+     * @return array
+     * @throws NotVerifiedException
+     * @throws WrongPasswordException
+     */
     public function login($email, $password): array
     {
         $user = $this->userRepository->findUserByEmail($email);
@@ -90,6 +105,12 @@ class AuthService implements AuthServiceInterface
         ];
     }
 
+    /**
+     * @param $token
+     * @param $code
+     * @return array
+     * @throws WrongCodeException
+     */
     public function confirmCode($token, $code)
     {
         $registerConfirms = $this->authRepository->getRegisterConfirmFromToken($token);
@@ -107,6 +128,12 @@ class AuthService implements AuthServiceInterface
         ];
     }
 
+    /**
+     * @param $codeHash
+     * @param $code
+     * @return mixed
+     * @throws WrongCodeException
+     */
     public function checkCodeIsEqual($codeHash, $code)
     {
         $isValid = $this->hashService->validate($codeHash, $code);
@@ -118,6 +145,10 @@ class AuthService implements AuthServiceInterface
         return $isValid;
     }
 
+    /**
+     * @param $user
+     * @return mixed
+     */
     private function generateToken($user)
     {
         $object = $user->toArray();
@@ -128,6 +159,11 @@ class AuthService implements AuthServiceInterface
         return $jwt;
     }
 
+    /**
+     * @param $user
+     * @return bool
+     * @throws AlreadyVerified
+     */
     private function validateEmailAlreadyVerified($user): bool
     {
         if ($user->verified) {
@@ -136,6 +172,11 @@ class AuthService implements AuthServiceInterface
         return $user->verified;
     }
 
+    /**
+     * @param $user
+     * @return bool
+     * @throws NotVerifiedException
+     */
     private function validateEmailNotVerified($user): bool
     {
         if (!$user->verified) {
@@ -146,6 +187,12 @@ class AuthService implements AuthServiceInterface
         return $user->verified;
     }
 
+    /**
+     * @param $user
+     * @param $password
+     * @return mixed
+     * @throws WrongPasswordException
+     */
     private function validatePassword($user, $password)
     {
         $validPassword = $this->hashService->validate($user->password, $password);
@@ -157,12 +204,19 @@ class AuthService implements AuthServiceInterface
         return $validPassword;
     }
 
+    /**
+     * @param $user
+     */
     private function invalidateOldCodes($user)
     {
         $this->authRepository->invalidateOldCodes($user->id);
     }
 
-    private function registerCodeAndSendByEmail($user)
+    /**
+     * @param User $user
+     * @return mixed
+     */
+    private function registerCodeAndSendByEmail(User $user)
     {
         $email = $user->email;
         $name = $user->name;
@@ -183,6 +237,10 @@ class AuthService implements AuthServiceInterface
         return $jwt;
     }
 
+    /**
+     * @return int
+     * @throws \Exception
+     */
     private function generateConfirmationCode(): int
     {
         return random_int(10000, 999999);
