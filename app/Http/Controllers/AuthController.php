@@ -137,4 +137,11 @@ class AuthController extends Controller
             }
         }
     }
+
+    public function confirmCode(Request $request): JsonResponse
+    {
+        try {
+        } catch (\Exception $e) {
+        }
+    }
 }

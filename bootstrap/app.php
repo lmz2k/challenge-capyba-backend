@@ -77,9 +77,13 @@ $app->register(Illuminate\Filesystem\FilesystemServiceProvider::class);
 //     App\Http\Middleware\ExampleMiddleware::class
 // ]);
 
-// $app->routeMiddleware([
-//     'auth' => App\Http\Middleware\Authenticate::class,
-// ]);
+//$app->routeMiddleware(
+//    ['auth' => App\Http\Middleware\Authenticate::class]
+//);
+
+$app->routeMiddleware(
+    ['code' => App\Http\Middleware\CodeAuthenticator::class]
+);
 
 /*
 |--------------------------------------------------------------------------

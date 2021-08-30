@@ -14,17 +14,21 @@ $router->group(['prefix' => 'api'], function () use ($router) {
             $router->post('/login', 'AuthController@login');
             $router->post('/logout', 'VacanciesController@getVacanciesList');
 
-            $router->group(['prefix' => 'code'], function () use ($router){
-                $router->post('/confirm', 'AuthController@confirmCode');
+            $router->group(['prefix' => 'code'], function () use ($router) {
                 $router->post('/resend', 'AuthController@resendCode');
-            });
+                $router->post('/confirm', [
+                        'middleware' => 'code',
+                        'uses' => 'AuthController@confirmCode'
+                    ]);
+                }
+            );
         });
 
         $router->group(['prefix' => 'vacancy'], function () use ($router) {
-                $router->get('/', 'VacanciesController@getVacanciesList');
-                $router->get('/{id}', 'VacanciesController@getVacancy');
-                $router->post('/', 'VacanciesController@createVacancy');
-                $router->put('/{id}', 'VacanciesController@updateVacancy');
+            $router->get('/', 'VacanciesController@getVacanciesList');
+            $router->get('/{id}', 'VacanciesController@getVacancy');
+            $router->post('/', 'VacanciesController@createVacancy');
+            $router->put('/{id}', 'VacanciesController@updateVacancy');
             }
         );
     }
