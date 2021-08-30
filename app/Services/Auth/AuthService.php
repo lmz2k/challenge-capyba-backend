@@ -11,6 +11,7 @@ use App\Services\Ftp\FtpServiceInterface;
 use App\Services\Hash\HashServiceInterface;
 use App\Services\Jwt\JwtServiceInterface;
 use App\Services\Mail\MailServiceInterface;
+use Carbon\Carbon;
 
 class AuthService implements AuthServiceInterface
 {
@@ -139,7 +140,12 @@ class AuthService implements AuthServiceInterface
 
         $code = $this->generateConfirmationCode();
         $codeHash = $this->hashService->create($code);
-        $jwt = $this->jwtService->create(['id' => $userId]);
+        $jwt = $this->jwtService->create(
+            [
+                'id' => $userId,
+                'created_at' => Carbon::now()
+            ]
+        );
 
         $this->mailService->sendConfirmationCode($code, $email, $name);
         $this->authRepository->registerCodeValidation($userId, $jwt, $codeHash);

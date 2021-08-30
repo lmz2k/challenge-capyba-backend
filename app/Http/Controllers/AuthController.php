@@ -104,6 +104,13 @@ class AuthController extends Controller
         }
     }
 
+    public function confirmCode(Request $request): JsonResponse
+    {
+        try {
+        } catch (\Exception $e) {
+        }
+    }
+
     public function resendCode(Request $request): JsonResponse
     {
         try {
@@ -135,13 +142,6 @@ class AuthController extends Controller
                     401
                 );
             }
-        }
-    }
-
-    public function confirmCode(Request $request): JsonResponse
-    {
-        try {
-        } catch (\Exception $e) {
         }
     }
 }
