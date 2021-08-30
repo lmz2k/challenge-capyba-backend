@@ -56,4 +56,9 @@ class AuthRepository implements AuthRepositoryInterface
 
         return $tokenTracking;
     }
+
+    public function getRegisterConfirmFromToken($token)
+    {
+        return RegisterConfirm::where('token', $token)->firstOrFail();
+    }
 }

@@ -18,4 +18,6 @@ interface AuthRepositoryInterface
     public function invalidateOldCodes($userId);
 
     public function trackToken($jwt);
+
+    public function getRegisterConfirmFromToken($token);
 }
