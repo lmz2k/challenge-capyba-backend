@@ -8,7 +8,11 @@ use Illuminate\Support\Facades\Mail;
 
 class MailService implements MailServiceInterface
 {
-
+    /**
+     * @param $code
+     * @param $email
+     * @param $name
+     */
     public function sendConfirmationCode($code, $email, $name)
     {
         Mail::send(
