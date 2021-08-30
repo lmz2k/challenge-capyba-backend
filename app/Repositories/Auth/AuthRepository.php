@@ -11,6 +11,13 @@ use App\Models\User;
 class AuthRepository implements AuthRepositoryInterface
 {
 
+    /**
+     * @param $name
+     * @param $email
+     * @param $passwordHash
+     * @param $photoPath
+     * @return User
+     */
     public function register($name, $email, $passwordHash, $photoPath): User
     {
         $user = new User();
@@ -26,6 +33,12 @@ class AuthRepository implements AuthRepositoryInterface
         return $user;
     }
 
+    /**
+     * @param $userId
+     * @param $codeHash
+     * @param $token
+     * @return RegisterConfirm
+     */
     public function registerCodeValidation($userId, $codeHash, $token): RegisterConfirm
     {
         $registerConfirm = new RegisterConfirm();
@@ -38,6 +51,9 @@ class AuthRepository implements AuthRepositoryInterface
         return $registerConfirm;
     }
 
+    /**
+     * @param $userId
+     */
     public function invalidateOldCodes($userId)
     {
         $codes = RegisterConfirm::where('user_id', $userId)->get();
@@ -47,6 +63,10 @@ class AuthRepository implements AuthRepositoryInterface
         RegisterConfirm::destroy($codesIds);
     }
 
+    /**
+     * @param $jwt
+     * @return TokenTacking
+     */
     public function trackToken($jwt): TokenTacking
     {
         $tokenTracking = new TokenTacking();
@@ -57,6 +77,10 @@ class AuthRepository implements AuthRepositoryInterface
         return $tokenTracking;
     }
 
+    /**
+     * @param $token
+     * @return mixed
+     */
     public function getRegisterConfirmFromToken($token)
     {
         return RegisterConfirm::where('token', $token)->firstOrFail();
