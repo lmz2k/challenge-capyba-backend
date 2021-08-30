@@ -8,6 +8,18 @@ use Illuminate\Support\Facades\DB;
 
 class VacancyRepository implements VacancyRepositoryInterface
 {
+    /**
+     * @param $search
+     * @param $hiringMode
+     * @param $occupation
+     * @param $isHomeOffice
+     * @param $cityId
+     * @param $salary
+     * @param $createdAt
+     * @param $page
+     * @param $perPage
+     * @return mixed
+     */
     public function getVacanciesList(
         $search,
         $hiringMode,
@@ -54,6 +66,10 @@ class VacancyRepository implements VacancyRepositoryInterface
             $page);
     }
 
+    /**
+     * @param $vacancyId
+     * @return mixed
+     */
     public function getVacancy($vacancyId)
     {
         return Vacancy::leftJoin('users', 'users.id', '=', 'vacancies.announcement_by')
@@ -81,6 +97,17 @@ class VacancyRepository implements VacancyRepositoryInterface
             );
     }
 
+    /**
+     * @param $userId
+     * @param $title
+     * @param $description
+     * @param $salary
+     * @param $isHomeOffice
+     * @param $occupation
+     * @param $cityId
+     * @param $hiringMode
+     * @return Vacancy
+     */
     public function createVacancy(
         $userId,
         $title,
@@ -108,6 +135,17 @@ class VacancyRepository implements VacancyRepositoryInterface
         return $vacancy;
     }
 
+    /**
+     * @param $id
+     * @param $title
+     * @param $description
+     * @param $salary
+     * @param $isHomeOffice
+     * @param $occupation
+     * @param $cityId
+     * @param $hiringMode
+     * @return Vacancy
+     */
     public function updateVacancy(
         $id,
         $title,
@@ -136,6 +174,11 @@ class VacancyRepository implements VacancyRepositoryInterface
         return $vacancy;
     }
 
+    /**
+     * @param $vacancy
+     * @param $value
+     * @param $key
+     */
     private function updateVacancyColumn(&$vacancy, $value, $key)
     {
         if ($value) {
@@ -158,6 +201,10 @@ class VacancyRepository implements VacancyRepositoryInterface
         );
     }
 
+    /**
+     * @param $query
+     * @param $hiringMode
+     */
     private function filterListByHiringMode(&$query, $hiringMode)
     {
         if (!isset($hiringMode)) {
@@ -169,6 +216,10 @@ class VacancyRepository implements VacancyRepositoryInterface
         }
     }
 
+    /**
+     * @param $query
+     * @param $occupation
+     */
     private function filterListByOccupation(&$query, $occupation)
     {
         if (!isset($occupation)) {
@@ -178,6 +229,11 @@ class VacancyRepository implements VacancyRepositoryInterface
         $query->where('vacancies.occupation', '=', $occupation);
     }
 
+    /**
+     * @param $query
+     * @param $isHomeOffice
+     * @param $cityId
+     */
     private function filterListByLocal(&$query, $isHomeOffice, $cityId)
     {
         if (isset($isHomeOffice)) {
@@ -189,6 +245,11 @@ class VacancyRepository implements VacancyRepositoryInterface
         }
     }
 
+    /**
+     * @param $query
+     * @param $order
+     * @param $column
+     */
     private function orderListByColumn(&$query, $order, $column)
     {
         $selectedOrder = $order ?? 'asc';
