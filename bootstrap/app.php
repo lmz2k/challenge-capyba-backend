@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/../vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 (new Laravel\Lumen\Bootstrap\LoadEnvironmentVariables(
     dirname(__DIR__)
@@ -23,9 +23,9 @@ $app = new Laravel\Lumen\Application(
     dirname(__DIR__)
 );
 
- $app->withFacades();
+$app->withFacades();
 
- $app->withEloquent();
+$app->withEloquent();
 
 /*
 |--------------------------------------------------------------------------
@@ -77,9 +77,13 @@ $app->register(Illuminate\Filesystem\FilesystemServiceProvider::class);
 //     App\Http\Middleware\ExampleMiddleware::class
 // ]);
 
-// $app->routeMiddleware([
-//     'auth' => App\Http\Middleware\Authenticate::class,
-// ]);
+//$app->routeMiddleware(
+//    ['auth' => App\Http\Middleware\Authenticate::class]
+//);
+
+$app->routeMiddleware(
+    ['code' => App\Http\Middleware\CodeAuthenticator::class]
+);
 
 /*
 |--------------------------------------------------------------------------
@@ -92,7 +96,7 @@ $app->register(Illuminate\Filesystem\FilesystemServiceProvider::class);
 |
 */
 
- $app->register(App\Providers\AppServiceProvider::class);
+$app->register(App\Providers\AppServiceProvider::class);
 // $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 
@@ -107,10 +111,19 @@ $app->register(Illuminate\Filesystem\FilesystemServiceProvider::class);
 |
 */
 
-$app->router->group([
-    'namespace' => 'App\Http\Controllers',
-], function ($router) {
-    require __DIR__.'/../routes/web.php';
-});
+$app->router->group(
+    [
+        'namespace' => 'App\Http\Controllers',
+    ],
+    function ($router) {
+        require __DIR__ . '/../routes/web.php';
+    }
+);
+
+$app->configure('mail');
+$app->configure('services');
+$app->register(Illuminate\Mail\MailServiceProvider::class);
+
+unset($app->availableBindings['mailer']);
 
 return $app;

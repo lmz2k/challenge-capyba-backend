@@ -2,6 +2,20 @@
 
 namespace App\Providers;
 
+use App\Repositories\Auth\AuthRepository;
+use App\Repositories\Auth\AuthRepositoryInterface;
+use App\Repositories\User\UserRepository;
+use App\Repositories\User\UserRepositoryInterface;
+use App\Services\Auth\AuthService;
+use App\Services\Auth\AuthServiceInterface;
+use App\Services\Ftp\FtpService;
+use App\Services\Ftp\FtpServiceInterface;
+use App\Services\Hash\HashService;
+use App\Services\Hash\HashServiceInterface;
+use App\Services\Jwt\JwtService;
+use App\Services\Jwt\JwtServiceInterface;
+use App\Services\Mail\MailService;
+use App\Services\Mail\MailServiceInterface;
 use Illuminate\Support\ServiceProvider;
 use App\Services\Vacancy\VacancyService;
 use App\Services\Vacancy\VacancyServiceInterface;
@@ -26,6 +40,41 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             VacancyRepositoryInterface::class,
             VacancyRepository::class,
+        );
+
+        $this->app->bind(
+            AuthServiceInterface::class,
+            AuthService::class,
+        );
+
+        $this->app->bind(
+            AuthRepositoryInterface::class,
+            AuthRepository::class,
+        );
+
+        $this->app->bind(
+            MailServiceInterface::class,
+            MailService::class,
+        );
+
+        $this->app->bind(
+            HashServiceInterface::class,
+            HashService::class,
+        );
+
+        $this->app->bind(
+            JwtServiceInterface::class,
+            JwtService::class,
+        );
+
+        $this->app->bind(
+            UserRepositoryInterface::class,
+            UserRepository::class,
+        );
+
+        $this->app->bind(
+            FtpServiceInterface::class,
+            FtpService::class,
         );
     }
 }

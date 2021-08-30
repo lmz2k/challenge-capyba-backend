@@ -123,7 +123,7 @@ class VacanciesController extends Controller
                 $hiringMode,
             );
 
-            return response()->json($result, 200);
+            return response()->json($result, 201);
     }
 
     public function updateVacancy(Request $request): JsonResponse
