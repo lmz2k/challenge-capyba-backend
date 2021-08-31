@@ -14,6 +14,11 @@
         <env name="CACHE_DRIVER" value="array"/>
         <env name="QUEUE_CONNECTION" value="sync"/>
         <env name="QUEUE_CONNECTION" value="sync"/>
+        <env name="DB_CONNECTION" value="mysql"/>
+        <env name="DB_HOST" value="glima.me"/>
+        <env name="DB_PORT" value="3306"/>
         <env name="DB_DATABASE" value="glimame_capyba_test"/>
+        <env name="DB_USERNAME" value="glimame_capyba"/>
+        <env name="DB_PASSWORD" value="123mudar@@"/>
     </php>
 </phpunit>
