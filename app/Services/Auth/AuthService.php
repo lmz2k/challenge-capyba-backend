@@ -230,8 +230,8 @@ class AuthService implements AuthServiceInterface
             ]
         );
 
-        $this->mailService->sendConfirmationCode($code, $email, $name);
         $this->authRepository->registerCodeValidation($userId, $codeHash, $jwt);
+        $this->mailService->sendConfirmationCode($code, $email, $name);
 
         return $jwt;
     }
@@ -242,7 +242,7 @@ class AuthService implements AuthServiceInterface
      */
     private function generateConfirmationCode(): int
     {
-        if (env('app_env') === 'testing') {
+        if (env('APP_ENV') === 'testing') {
             return 123456;
         }
 

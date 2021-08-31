@@ -72,14 +72,10 @@ class AuthController extends Controller
             $email = $request->input('email');
             $password = $request->input('password');
 
-            DB::beginTransaction();
             $result = $this->authService->login($email, $password);
-            DB::commit();
 
             return response()->json($result, 200);
         } catch (\Exception $e) {
-            DB::rollBack();
-
             if ($e instanceof ModelNotFoundException) {
                 return response()->json(
                     ['message' => 'Email not registered on system'],
@@ -116,7 +112,7 @@ class AuthController extends Controller
             $token = str_replace('Bearer ', '', $authorizationHeader);
 
             $result = $this->authService->confirmCode($token, $code);
-            return response()->json($result, 201);
+            return response()->json($result, 200);
         } catch (\Exception $e) {
             if ($e instanceof WrongCodeException) {
                 return response()->json(
