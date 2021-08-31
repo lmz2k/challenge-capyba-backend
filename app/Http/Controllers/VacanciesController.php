@@ -3,7 +3,9 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Services\Vacancy\VacancyServiceInterface;
@@ -58,7 +60,7 @@ class VacanciesController extends Controller
             );
 
             return response()->json($result, 200);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return response()->json(
                 ['message' => 'Internal error'],
                 500
@@ -74,7 +76,7 @@ class VacanciesController extends Controller
             $result = $this->vacancyService->getVacancy($vacancyId);
 
             return response()->json($result, 200);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             if ($e instanceof ModelNotFoundException) {
                 return response()->json(
                     ['message' => 'Vacancy not found'],
@@ -90,6 +92,7 @@ class VacanciesController extends Controller
 
     public function createVacancy(Request $request): JsonResponse
     {
+        try {
             $this->validate(
                 $request,
                 [
@@ -103,7 +106,7 @@ class VacanciesController extends Controller
                 ]
             );
 
-            $userId = 1;
+            $userId = $request->user->id;
             $title = $request->input('title');
             $description = $request->input('description');
             $salary = $request->input('salary');
@@ -124,10 +127,21 @@ class VacanciesController extends Controller
             );
 
             return response()->json($result, 201);
+        } catch (QueryException $e) {
+            $errorCode = $e->errorInfo[1];
+            if ($errorCode = '23000') {
+                return response()->json(
+                    ['message' => 'Invalid city_id'],
+                    422
+                );
+            }
+        }
     }
 
-    public function updateVacancy(Request $request): JsonResponse
-    {
+
+    public function updateVacancy(
+        Request $request
+    ): JsonResponse {
         $this->validate(
             $request,
             [

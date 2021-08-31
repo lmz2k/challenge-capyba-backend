@@ -2,41 +2,58 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\RegisterConfirm;
+use App\Models\TokenTacking;
+use App\models\User;
+use App\Services\Jwt\JwtServiceInterface;
 use Closure;
-use Illuminate\Contracts\Auth\Factory as Auth;
+use Firebase\JWT\JWT;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use UnexpectedValueException;
 
 class Authenticate
 {
-    /**
-     * The authentication guard factory instance.
-     *
-     * @var \Illuminate\Contracts\Auth\Factory
-     */
-    protected $auth;
+    private JwtServiceInterface $jwtService;
 
-    /**
-     * Create a new middleware instance.
-     *
-     * @param  \Illuminate\Contracts\Auth\Factory  $auth
-     * @return void
-     */
-    public function __construct(Auth $auth)
+    public function __construct(JwtServiceInterface $jwtService)
     {
-        $this->auth = $auth;
+        $this->jwtService = $jwtService;
     }
 
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @param  string|null  $guard
-     * @return mixed
-     */
     public function handle($request, Closure $next, $guard = null)
     {
-        if ($this->auth->guard($guard)->guest()) {
-            return response('Unauthorized.', 401);
+        try {
+            $authorizationHeader = $request->header('Authorization');
+            $authArray = explode(' ', $authorizationHeader);
+
+            if (count($authArray) === 1) {
+                return response('Unexpected token formation (Did you forget to put Bearer before the token?)', 400);
+            }
+
+            $token = $authArray[1];
+
+            if (strlen($token) === 0) {
+                return response()->json(['message' => 'Missing token'], 403);
+            }
+            $validToken = $this->jwtService->validate($token);
+
+            if (!$validToken) {
+                return response()->json(['message' => 'Invalid token'], 403);
+            }
+
+            TokenTacking::where('token', $token)->firstOrFail();
+
+            $request->user = User::find($validToken->id);
+            return $next($request);
+
+        } catch (\Exception $e) {
+            $message = 'Invalid token';
+
+            if ($e instanceof ModelNotFoundException || $e instanceof ModelNotFoundException) {
+                $message = 'Unauthorized';
+            }
+
+            return response()->json(['message' => $message], 403);
         }
 
         return $next($request);

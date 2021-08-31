@@ -7,6 +7,7 @@ use App\Models\RegisterConfirm;
 use App\Services\Jwt\JwtServiceInterface;
 use Closure;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use UnexpectedValueException;
 
 class CodeAuthenticator
 {
@@ -22,7 +23,13 @@ class CodeAuthenticator
     {
         try {
             $authorizationHeader = $request->header('Authorization');
-            $token = str_replace('Bearer ', '', $authorizationHeader);
+            $authArray = explode(' ', $authorizationHeader);
+
+            if (count($authArray) === 1) {
+                return response('Unexpected token formation (Did you forget to put Bearer before the token?)', 400);
+            }
+
+            $token = $authArray[1];
 
             if (strlen($token) === 0) {
                 return response()->json(['message' => 'Missing token'], 403);
@@ -41,6 +48,10 @@ class CodeAuthenticator
 
             if ($e instanceof ModelNotFoundException) {
                 $message = 'Expired JWT';
+            }
+
+            if($e instanceof UnexpectedValueException){
+                $message = 'Unauthorized';
             }
 
             return response()->json(['message' => $message], 403);

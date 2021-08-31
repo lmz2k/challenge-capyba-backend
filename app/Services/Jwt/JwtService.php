@@ -22,6 +22,15 @@ class JwtService implements JwtServiceInterface
      */
     public function validate($jwt): object
     {
+        return $this->decode($jwt);
+    }
+
+    /**
+     * @param $jwt
+     * @return object
+     */
+    public function decode($jwt): object
+    {
         return JWT::decode($jwt, env('JWT_KEY'), ['HS256']);
     }
 }
