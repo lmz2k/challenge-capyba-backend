@@ -50,7 +50,7 @@ class CodeTests extends TestCase
         // check if has created two different tokens
         $this->assertNotEquals($tokens[0], $tokens[1]);
 
-        // check if only the last token is still on databa
+        // check if only the last token is still on database
         $this->assertEquals(1, RegisterConfirm::all()->count());
 
         // try to confirm with old token
