@@ -99,10 +99,8 @@ class CodeTests extends TestCase
             ['email' => $this->defaultEmail]
         );
 
-        // getting token to send as Authorization when confirm code sent to email
-        $data = json_decode($this->response->getContent(), true);
-
         // check if returns message confirming that email has been already confirmed before
+        $data = json_decode($this->response->getContent(), true);
         $this->assertEquals('Email already verified on system', $data['message']);
 
     }
