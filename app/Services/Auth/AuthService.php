@@ -74,7 +74,6 @@ class AuthService implements AuthServiceInterface
     public function login($email, $password): array
     {
         $user = $this->userRepository->findUserByEmail($email);
-
         $this->validatePassword($user, $password);
         $this->validateEmailNotVerified($user);
 
@@ -243,6 +242,10 @@ class AuthService implements AuthServiceInterface
      */
     private function generateConfirmationCode(): int
     {
+        if (env('app_env') === 'testing') {
+            return 123456;
+        }
+
         return random_int(10000, 999999);
     }
 }
