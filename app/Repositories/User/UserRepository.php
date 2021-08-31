@@ -29,7 +29,7 @@ class UserRepository implements UserRepositoryInterface
             ->firstOrFail();
     }
 
-    public function updateUser($id, $attributes)
+    public function updateUser($id, $attributes): User
     {
         $user = new User();
         $user->id = $id;
