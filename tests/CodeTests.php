@@ -29,7 +29,7 @@ class CodeTests extends TestCase
         );
     }
 
-    public function testRefreshToken()
+    public function testRefreshCode()
     {
         $tokens = [];
 
