@@ -34,11 +34,11 @@ class AuthController extends Controller
                     'photo' => 'mimes:jpeg,bmp,png,jpg|required',
                 ]
             );
-
             $name = $request->input('name');
             $email = $request->input('email');
             $password = $request->input('password');
             $photo = $request->file('photo');
+
 
             DB::beginTransaction();
             $result = $this->authService->register($name, $email, $password, $photo);
@@ -51,7 +51,7 @@ class AuthController extends Controller
             if ($errorCode == '1062') {
                 return response()->json(
                     ['message' => 'Email already registered'],
-                    201
+                    401
                 );
             }
         }
