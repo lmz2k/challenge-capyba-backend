@@ -7,6 +7,7 @@ use App\Exceptions\AlreadyVerified;
 use App\Exceptions\NotVerifiedException;
 use App\Exceptions\WrongCodeException;
 use App\Exceptions\WrongPasswordException;
+use App\Models\User;
 use App\Services\Auth\AuthServiceInterface;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;

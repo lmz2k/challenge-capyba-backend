@@ -28,4 +28,18 @@ class UserRepository implements UserRepositoryInterface
         return User::where('id', $id)
             ->firstOrFail();
     }
+
+    public function updateUser($id, $attributes)
+    {
+        $user = new User();
+        $user->id = $id;
+        $user->exists = true;
+
+        foreach ($attributes as $key =>$value){
+            $user->{$key} = $value;
+        }
+
+        $user->save();
+        return $user;
+    }
 }

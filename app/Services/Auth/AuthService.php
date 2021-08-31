@@ -110,7 +110,7 @@ class AuthService implements AuthServiceInterface
      * @return array
      * @throws WrongCodeException
      */
-    public function confirmCode($token, $code)
+    public function confirmCode($token, $code): array
     {
         $registerConfirms = $this->authRepository->getRegisterConfirmFromToken($token);
         $codeHash = $registerConfirms->code_hash;
@@ -118,6 +118,7 @@ class AuthService implements AuthServiceInterface
 
         $this->checkCodeIsEqual($codeHash, $code);
 
+        $this->userRepository->updateUser($user->id, ['verified' => 1]);
         $this->invalidateOldCodes($user);
         $jwt = $this->generateToken($user);
 
