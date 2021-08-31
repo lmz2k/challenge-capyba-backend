@@ -35,7 +35,7 @@ class UserRepository implements UserRepositoryInterface
         $user->id = $id;
         $user->exists = true;
 
-        foreach ($attributes as $key =>$value){
+        foreach ($attributes as $key => $value) {
             $user->{$key} = $value;
         }
 
