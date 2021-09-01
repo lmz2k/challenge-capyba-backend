@@ -8,7 +8,10 @@ $router->group(['prefix' => 'api'], function () use ($router) {
         $router->group(['prefix' => 'auth'], function () use ($router) {
             $router->post('/register', 'AuthController@register');
             $router->post('/login', 'AuthController@login');
-            $router->post('/logout', 'VacanciesController@getVacanciesList');
+
+            $router->group(['middleware' => 'auth',], function () use ($router) {
+                $router->post('/logout', 'AuthController@logout');
+            });
 
             $router->group(['prefix' => 'code'], function () use ($router) {
                 $router->post('/resend', 'AuthController@resendCode');

@@ -85,6 +85,12 @@ class AuthService implements AuthServiceInterface
         ];
     }
 
+
+    public function logout($token)
+    {
+        return $this->authRepository->logout($token);
+    }
+
     /**
      * @param $email
      * @return array

@@ -30,7 +30,7 @@ class ProfileController extends Controller
                 ]
             );
 
-            $userId = $request->user ? $request->user->id : null;
+            $userId = $request->user->id;
 
             $name = $request->input('name');
             $email = $request->input('email');
@@ -58,7 +58,7 @@ class ProfileController extends Controller
                 ]
             );
 
-            $userId = $request->user ? $request->user->id : null;
+            $userId = $request->user->id;
 
             $currentPassword = $request->input('current_password');
             $newPassword = $request->input('new_password');
