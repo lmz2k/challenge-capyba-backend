@@ -9,15 +9,15 @@ class TestDatabaseCreationHelper
 {
 
     public function createTestUser(
-        $name,
-        $email,
+        $name = 'Sicrano',
+        $email = 'sicrano@email.com',
         $password = '123mudar@@',
         $verified = 0
     ): User {
         $user = new User();
 
-        $user->name = $name ?? '';
-        $user->email = $email ?? '';
+        $user->name = $name;
+        $user->email = $email;
         $user->password = Hash::make($password);
         $user->photo = '...';
         $user->verified = $verified;
