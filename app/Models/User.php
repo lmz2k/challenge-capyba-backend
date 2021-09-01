@@ -20,8 +20,6 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         'password',
         'photo',
         'verified',
-        'last_login',
-        'last_logout'
     ];
 
     protected $hidden = ['password'];

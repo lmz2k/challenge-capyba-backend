@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Repositories\Auth\AuthRepository;
 use App\Repositories\Auth\AuthRepositoryInterface;
+use App\Repositories\Location\LocationRepository;
+use App\Repositories\Location\LocationRepositoryInterface;
 use App\Repositories\Profile\ProfileRepository;
 use App\Repositories\Profile\ProfileRepositoryInterface;
 use App\Repositories\User\UserRepository;
@@ -16,6 +18,8 @@ use App\Services\Hash\HashService;
 use App\Services\Hash\HashServiceInterface;
 use App\Services\Jwt\JwtService;
 use App\Services\Jwt\JwtServiceInterface;
+use App\Services\Location\LocationService;
+use App\Services\Location\LocationServiceInterface;
 use App\Services\Mail\MailService;
 use App\Services\Mail\MailServiceInterface;
 use App\Services\Profile\ProfileService;
@@ -89,6 +93,16 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             ProfileRepositoryInterface::class,
             ProfileRepository::class,
+        );
+
+        $this->app->bind(
+            LocationRepositoryInterface::class,
+            LocationRepository::class,
+        );
+
+        $this->app->bind(
+            LocationServiceInterface::class,
+            LocationService::class,
         );
     }
 }

@@ -5,6 +5,8 @@
 
 $router->group(['prefix' => 'api'], function () use ($router) {
 
+        $router->get('/location', 'LocationController@searchCity');
+
         $router->group(['prefix' => 'auth'], function () use ($router) {
             $router->post('/register', 'AuthController@register');
             $router->post('/login', 'AuthController@login');
