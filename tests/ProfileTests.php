@@ -1,6 +1,7 @@
 <?php
 
 
+use App\Models\User;
 use Illuminate\Http\UploadedFile;
 use Laravel\Lumen\Testing\DatabaseTransactions;
 use Tests\Helpers\TestDatabaseCreationHelper;
@@ -40,7 +41,6 @@ class ProfileTests extends TestCase
     {
         $newName = 'Fulano';
         $newEmail = 'email@email.com';
-        $newPhoto = UploadedFile::fake()->create('image.jpg', 1024);
 
         $userid = $this->user->id;
 
@@ -49,6 +49,43 @@ class ProfileTests extends TestCase
 
         $this->post($this->profileUrl, ['email' => $newEmail], $this->authenticatedHeader)
             ->assertResponseOk();
+
+        $userOnDatabase = User::where(
+            [
+                ['id', '=', $userid],
+                ['name', '=', $newName],
+                ['email', '=', $newEmail],
+            ]
+        )->get();
+
+        $this->assertCount(1, $userOnDatabase);
+    }
+
+    public function testChangePassword()
+    {
+        $newPassword = 'capyba';
+
+        // sending incorrect current password
+        $this->post(
+            $this->profileUrl . '/password',
+            [
+                'new_password' => $newPassword,
+                'current_password' => 'fail'
+            ]
+            ,
+            $this->authenticatedHeader
+        )->assertResponseStatus(401);
+
+        // sending correct current password
+        $this->post(
+            $this->profileUrl . '/password',
+            [
+                'new_password' => $newPassword,
+                'current_password' => $this->defaultPassword
+            ]
+            ,
+            $this->authenticatedHeader
+        )->assertResponseStatus(200);
     }
 
     private function login()

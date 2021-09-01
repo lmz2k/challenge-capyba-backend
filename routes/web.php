@@ -22,6 +22,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
 
         $router->group(['middleware' => 'auth', 'prefix' => 'profile'], function () use ($router) {
             $router->post('/', 'ProfileController@update');
+            $router->post('/password', 'ProfileController@changePassword');
         });
 
 
