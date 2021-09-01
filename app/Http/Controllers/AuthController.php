@@ -40,7 +40,6 @@ class AuthController extends Controller
             $password = $request->input('password');
             $photo = $request->file('photo');
 
-
             DB::beginTransaction();
             $result = $this->authService->register($name, $email, $password, $photo);
             DB::commit();
@@ -100,6 +99,20 @@ class AuthController extends Controller
                 );
             }
         }
+    }
+
+    public function logout(Request $request): JsonResponse
+    {
+        $token = $request->bearerToken();
+
+        $this->authService->logout($token);
+
+        return response()->json(['message' => 'successful logged out'], 200);
+    }
+
+    public function privacyPolicy()
+    {
+        return $this->authService->privacyPolicy();
     }
 
     public function confirmCode(Request $request): JsonResponse

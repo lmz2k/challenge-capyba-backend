@@ -14,6 +14,7 @@ use App\Services\Ftp\FtpServiceInterface;
 use App\Services\Hash\HashServiceInterface;
 use App\Services\Jwt\JwtServiceInterface;
 use App\Services\Mail\MailServiceInterface;
+use Barryvdh\DomPDF\Facade as PDF;
 use Carbon\Carbon;
 
 class AuthService implements AuthServiceInterface
@@ -83,6 +84,12 @@ class AuthService implements AuthServiceInterface
             'user' => $user,
             'token' => $jwt,
         ];
+    }
+
+
+    public function logout($token)
+    {
+        return $this->authRepository->logout($token);
     }
 
     /**
@@ -248,5 +255,11 @@ class AuthService implements AuthServiceInterface
         }
 
         return random_int(10000, 999999);
+    }
+
+    public function privacyPolicy()
+    {
+        $pdf = PDF::loadView('terms');
+        return $pdf->download('terms.pdf');
     }
 }

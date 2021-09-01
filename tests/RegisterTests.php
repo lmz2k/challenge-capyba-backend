@@ -77,7 +77,6 @@ class RegisterTests extends TestCase
     {
 
         // hit api not sending all required fields
-
         $this->post(($this->url), ['name' => $this->defaultName])
             ->assertResponseStatus(422);
 

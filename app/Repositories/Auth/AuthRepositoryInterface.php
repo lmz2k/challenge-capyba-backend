@@ -20,4 +20,6 @@ interface AuthRepositoryInterface
     public function trackToken($jwt);
 
     public function getRegisterConfirmFromToken($token);
+
+    public function logout($token);
 }

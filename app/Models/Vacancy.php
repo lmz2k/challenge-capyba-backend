@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Vacancy extends Model
 {
-
     const BACKEND_OCCUPATION = 'BACK';
     const FRONTEND_OCCUPATION = 'FRONT';
     const FULLSTACK_OCCUPATION = 'FULL';

@@ -85,4 +85,14 @@ class AuthRepository implements AuthRepositoryInterface
     {
         return RegisterConfirm::where('token', $token)->firstOrFail();
     }
+
+    public function logout($token)
+    {
+        $tokenTracking = TokenTacking::where('token', $token)->get();
+
+        $tokenTrackingIds = $tokenTracking->pluck('id');
+
+        TokenTacking::destroy($tokenTrackingIds);
+
+    }
 }
