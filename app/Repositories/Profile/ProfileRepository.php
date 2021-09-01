@@ -23,4 +23,16 @@ class ProfileRepository implements ProfileRepositoryInterface
 
         return $user;
     }
+
+    public function changePassword($userId, $newPassword): User
+    {
+        $user = new User();
+
+        $user->id = $userId;
+        $user->exists = true;
+        $user->password = $newPassword;
+
+        $user->save();
+        return $user;
+    }
 }
