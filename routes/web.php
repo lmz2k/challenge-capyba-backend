@@ -25,7 +25,6 @@ $router->group(['prefix' => 'api'], function () use ($router) {
             $router->post('/password', 'ProfileController@changePassword');
         });
 
-
         $router->group(['prefix' => 'vacancy'], function () use ($router) {
             $router->get('/', 'VacanciesController@getVacancies');
 
