@@ -40,7 +40,6 @@ class AuthController extends Controller
             $password = $request->input('password');
             $photo = $request->file('photo');
 
-
             DB::beginTransaction();
             $result = $this->authService->register($name, $email, $password, $photo);
             DB::commit();

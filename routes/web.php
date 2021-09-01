@@ -4,10 +4,6 @@
 
 
 $router->group(['prefix' => 'api'], function () use ($router) {
-        $router->get('/check', function () use ($router) {
-                return $router->app->version();
-            }
-        );
 
         $router->group(['prefix' => 'auth'], function () use ($router) {
             $router->post('/register', 'AuthController@register');
@@ -16,13 +12,18 @@ $router->group(['prefix' => 'api'], function () use ($router) {
 
             $router->group(['prefix' => 'code'], function () use ($router) {
                 $router->post('/resend', 'AuthController@resendCode');
-                $router->post('/confirm', [
-                        'middleware' => 'code',
-                        'uses' => 'AuthController@confirmCode'
-                    ]);
-                }
-            );
+
+                $router->group(['middleware' => 'code',], function () use ($router) {
+                    $router->post('/confirm', 'AuthController@confirmCode');
+                });
+
+            });
         });
+
+        $router->group(['middleware' => 'auth', 'prefix' => 'profile'], function () use ($router) {
+            $router->post('/', 'ProfileController@update');
+        });
+
 
         $router->group(['prefix' => 'vacancy'], function () use ($router) {
             $router->get('/', 'VacanciesController@getVacancies');
