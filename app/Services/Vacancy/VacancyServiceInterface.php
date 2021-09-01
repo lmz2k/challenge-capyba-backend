@@ -6,7 +6,8 @@ namespace App\Services\Vacancy;
 
 interface VacancyServiceInterface
 {
-    public function getVacanciesList(
+    public function getList(
+        $userId,
         $search,
         $hiringMode,
         $occupation,
@@ -18,21 +19,8 @@ interface VacancyServiceInterface
         $perPage
     );
 
-    public function getVacancy($vacancyId);
-
     public function createVacancy(
         $userId,
-        $title,
-        $description,
-        $salary,
-        $isHomeOffice,
-        $occupation,
-        $cityId,
-        $hiringMode
-    );
-
-    public function updateVacancy(
-        $id,
         $title,
         $description,
         $salary,

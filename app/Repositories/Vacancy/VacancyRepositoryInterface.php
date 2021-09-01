@@ -6,7 +6,7 @@ namespace App\Repositories\Vacancy;
 
 interface VacancyRepositoryInterface
 {
-    public function getVacanciesList(
+    public function getList(
         $search,
         $hiringMode,
         $occupation,
@@ -15,24 +15,12 @@ interface VacancyRepositoryInterface
         $salary,
         $createdAt,
         $page,
-        $perPage
+        $perPage,
+        $userId = null
     );
-
-    public function getVacancy($vacancyId);
 
     public function createVacancy(
         $userId,
-        $title,
-        $description,
-        $salary,
-        $isHomeOffice,
-        $occupation,
-        $cityId,
-        $hiringMode
-    );
-
-    public function updateVacancy(
-        $id,
         $title,
         $description,
         $salary,
