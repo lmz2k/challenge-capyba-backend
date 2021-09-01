@@ -123,6 +123,7 @@ $app->router->group(
 $app->configure('mail');
 $app->configure('services');
 $app->register(Illuminate\Mail\MailServiceProvider::class);
+$app->register(\Barryvdh\DomPDF\ServiceProvider::class);
 
 unset($app->availableBindings['mailer']);
 

@@ -103,11 +103,16 @@ class AuthController extends Controller
 
     public function logout(Request $request): JsonResponse
     {
-        $token =  $request->bearerToken();
+        $token = $request->bearerToken();
 
         $this->authService->logout($token);
 
         return response()->json(['message' => 'successful logged out'], 200);
+    }
+
+    public function privacyPolicy()
+    {
+        return $this->authService->privacyPolicy();
     }
 
     public function confirmCode(Request $request): JsonResponse

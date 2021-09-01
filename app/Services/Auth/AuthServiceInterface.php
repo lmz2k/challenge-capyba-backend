@@ -11,4 +11,5 @@ interface AuthServiceInterface
     public function resendCode($email);
     public function confirmCode($token, $code);
     public function logout($token);
+    public function privacyPolicy();
 }
