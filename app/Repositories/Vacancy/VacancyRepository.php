@@ -18,9 +18,10 @@ class VacancyRepository implements VacancyRepositoryInterface
      * @param $createdAt
      * @param $page
      * @param $perPage
+     * @param null $userId
      * @return mixed
      */
-    public function getVacanciesList(
+    public function getList(
         $search,
         $hiringMode,
         $occupation,
@@ -29,12 +30,14 @@ class VacancyRepository implements VacancyRepositoryInterface
         $salary,
         $createdAt,
         $page,
-        $perPage
+        $perPage,
+        $userId = null
     ) {
         $query = Vacancy::leftJoin('users', 'users.id', '=', 'vacancies.announcement_by')
             ->leftJoin('cities', 'cities.id', '=', 'vacancies.city_id')
             ->leftJoin('states', 'states.id', '=', 'cities.state_id');
 
+        $this->filterListByUser($query, $userId);
         $this->filterListBySearch($query, $search);
         $this->filterListByHiringMode($query, $hiringMode);
         $this->filterListByOccupation($query, $occupation);
@@ -63,38 +66,8 @@ class VacancyRepository implements VacancyRepositoryInterface
                 )
             ],
             'page',
-            $page);
-    }
-
-    /**
-     * @param $vacancyId
-     * @return mixed
-     */
-    public function getVacancy($vacancyId)
-    {
-        return Vacancy::leftJoin('users', 'users.id', '=', 'vacancies.announcement_by')
-            ->leftJoin('cities', 'cities.id', '=', 'vacancies.city_id')
-            ->leftJoin('states', 'states.id', '=', 'cities.state_id')
-            ->where('vacancies.id', $vacancyId)
-            ->firstOrFail(
-                [
-                    'vacancies.id as id',
-                    'vacancies.title as title',
-                    'vacancies.description as description',
-                    'vacancies.is_home_office as home_office',
-                    'vacancies.occupation as occupation',
-                    'vacancies.salary as salary',
-                    'cities.name as city',
-                    'states.name as state',
-                    DB::raw(
-                        "CASE
-                        WHEN vacancies.hiring_mode = 'BOTH'
-                        THEN 'PJ E CLT'
-                        ELSE vacancies.hiring_mode
-                     END as hiring_mode"
-                    )
-                ]
-            );
+            $page
+        );
     }
 
     /**
@@ -117,8 +90,7 @@ class VacancyRepository implements VacancyRepositoryInterface
         $occupation,
         $cityId,
         $hiringMode
-    ): Vacancy
-    {
+    ): Vacancy {
         $vacancy = new Vacancy();
 
         $vacancy->title = $title;
@@ -135,57 +107,11 @@ class VacancyRepository implements VacancyRepositoryInterface
         return $vacancy;
     }
 
-    /**
-     * @param $id
-     * @param $title
-     * @param $description
-     * @param $salary
-     * @param $isHomeOffice
-     * @param $occupation
-     * @param $cityId
-     * @param $hiringMode
-     * @return Vacancy
-     */
-    public function updateVacancy(
-        $id,
-        $title,
-        $description,
-        $salary,
-        $isHomeOffice,
-        $occupation,
-        $cityId,
-        $hiringMode
-    ): Vacancy
-    {
-        $vacancy = new Vacancy();
-        $vacancy->exists = true;
-        $vacancy->id = $id;
-
-        $this->updateVacancyColumn($vacancy, $title, 'title');
-        $this->updateVacancyColumn($vacancy, $description, 'description');
-        $this->updateVacancyColumn($vacancy, $salary, 'salary');
-        $this->updateVacancyColumn($vacancy, $isHomeOffice, 'is_home_office');
-        $this->updateVacancyColumn($vacancy, $occupation, 'occupation');
-        $this->updateVacancyColumn($vacancy, $cityId, 'city_id');
-        $this->updateVacancyColumn($vacancy, $hiringMode, 'hiring_mode');
-
-        $vacancy->save();
-
-        return $vacancy;
-    }
 
     /**
-     * @param $vacancy
-     * @param $value
-     * @param $key
+     * @param $query
+     * @param $search
      */
-    private function updateVacancyColumn(&$vacancy, $value, $key)
-    {
-        if ($value) {
-            $vacancy->{$key} = $value;
-        }
-    }
-
     private function filterListBySearch(&$query, $search)
     {
         if (!isset($search)) {
@@ -214,6 +140,18 @@ class VacancyRepository implements VacancyRepositoryInterface
         if ($hiringMode !== Vacancy::BOTH_HIRING) {
             $query->where('vacancies.hiring_mode', '=', $hiringMode);
         }
+    }
+
+    /**
+     * @param $query
+     * @param $userId
+     */
+    private function filterListByUser(&$query, $userId)
+    {
+        if (!isset($userId)) {
+            return;
+        }
+        $query->where('vacancies.announcement_by', '=', $userId);
     }
 
     /**
@@ -254,6 +192,6 @@ class VacancyRepository implements VacancyRepositoryInterface
     {
         $selectedOrder = $order ?? 'asc';
 
-        $query->orderBy('vacancies.'.$column, $selectedOrder);
+        $query->orderBy('vacancies.' . $column, $selectedOrder);
     }
 }

@@ -25,15 +25,11 @@ $router->group(['prefix' => 'api'], function () use ($router) {
         });
 
         $router->group(['prefix' => 'vacancy'], function () use ($router) {
-            $router->get('/', 'VacanciesController@getVacanciesList');
-            $router->get('/{id}', 'VacanciesController@getVacancy');
+            $router->get('/', 'VacanciesController@getVacancies');
 
-
-            $router->group(
-                ['middleware' => 'auth'],
-                function () use ($router) {
+            $router->group(['middleware' => 'auth'], function () use ($router) {
                     $router->post('/', 'VacanciesController@createVacancy');
-                    $router->put('/{id}', 'VacanciesController@updateVacancy');
+                    $router->get('/my', 'VacanciesController@getVacancies');
                 }
             );
         });
