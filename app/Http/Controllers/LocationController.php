@@ -18,6 +18,59 @@ class LocationController extends Controller
     }
 
     /**
+     * @OA\Get(
+     *     tags={"Localização"},
+     *     path="/api/location",
+     *     description="EP para buscar cidades no sistema paginado",
+     *  @OA\Parameter(
+     *     name="search",
+     *     required=false,
+     *     description="Nome da cidade para pesquisar",
+     *     in="path",
+     *     @OA\Schema(
+     *         type="string"
+     *      )
+     *    ),
+     *  @OA\Parameter(
+     *     name="page",
+     *     required=true,
+     *     description="Numero da pagina",
+     *     in="path",
+     *     @OA\Schema(
+     *         type="integer"
+     *      )
+     *    ),
+     * @OA\Parameter(
+     *     name="per_page",
+     *     required=true,
+     *     description="Quantidade de items por pagina",
+     *     in="path",
+     *     @OA\Schema(
+     *         type="integer"
+     *      )
+     *    ),
+     *   @OA\Response(
+     *          response=200,
+     *          description="Successful operation"
+     *    ),
+     *   @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *    ),
+     *    @OA\Response(
+     *          response=422,
+     *          description="Unprocessed Entity"
+     *    ),
+     *    @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *    ),
+     *    @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *     )
+     *)
+     *
      * @param Request $request
      * @return JsonResponse
      * @throws \Illuminate\Validation\ValidationException
