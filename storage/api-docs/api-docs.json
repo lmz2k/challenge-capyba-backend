@@ -321,6 +321,114 @@
                     }
                 }
             }
+        },
+        "/api/profile/": {
+            "post": {
+                "tags": [
+                    "Perfil (Rota autenticada)"
+                ],
+                "description": "EP para alterar dados de um usuario logado",
+                "operationId": "7a58251caab876a192776435762575f7",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "description": "Novo email do usuário",
+                                        "type": "string"
+                                    },
+                                    "name": {
+                                        "description": "Novo nome do usuario",
+                                        "type": "string"
+                                    },
+                                    "photo": {
+                                        "description": "Nova foto de perfil do funcionário",
+                                        "type": "file"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "422": {
+                        "description": "Unprocessed Entity"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/profile/password": {
+            "post": {
+                "tags": [
+                    "Perfil (Rota autenticada)"
+                ],
+                "description": "EP para alterar senha de um usuario",
+                "operationId": "ed15ecd3d1f1bc3b47cebd88af13b178",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "current_password",
+                                    "current_password"
+                                ],
+                                "properties": {
+                                    "current_password": {
+                                        "description": "Senha atual do usuario",
+                                        "type": "string"
+                                    },
+                                    "new_password": {
+                                        "description": "Nova senha do usuario",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "422": {
+                        "description": "Unprocessed Entity"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            }
         }
     },
     "components": {

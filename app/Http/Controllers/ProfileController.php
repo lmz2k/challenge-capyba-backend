@@ -18,6 +18,57 @@ class ProfileController extends Controller
         $this->profileService = $profileService;
     }
 
+    /**
+     * @OA\Post(
+     *     tags={"Perfil (Rota autenticada)"},
+     *     path="/api/profile/",
+     *     description="EP para alterar dados de um usuario logado",
+     *     security={{ "apiAuth": {} }},
+     *@OA\RequestBody(
+     *         @OA\MediaType(
+     *             mediaType="multipart/form-data",
+     *             @OA\Schema(
+     *                 @OA\Property(
+     *                     property="email",
+     *                     type="string",
+     *                     description="Novo email do usuário",
+     *                 ),
+     *                 @OA\Property(
+     *                     property="name",
+     *                     type="string",
+     *                     description="Novo nome do usuario",
+     *                 ),
+     *                  @OA\Property(
+     *                     property="photo",
+     *                     type="file",
+     *                     description="Nova foto de perfil do funcionário",
+     *                 ),
+     *             )
+     *         )
+     *     ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation"
+     *       ),
+     *     @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *       ),
+     *      @OA\Response(
+     *          response=422,
+     *          description="Unprocessed Entity"
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
+     *    )
+     * )
+     */
     public function update(Request $request): JsonResponse
     {
         try {
@@ -47,6 +98,53 @@ class ProfileController extends Controller
         }
     }
 
+    /**
+     * @OA\Post(
+     *     tags={"Perfil (Rota autenticada)"},
+     *     path="/api/profile/password",
+     *     description="EP para alterar senha de um usuario",
+     *     security={{ "apiAuth": {} }},
+     *@OA\RequestBody(
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 @OA\Property(
+     *                     property="current_password",
+     *                     type="string",
+     *                     description="Senha atual do usuario",
+     *                 ),
+     *                 @OA\Property(
+     *                     property="new_password",
+     *                     type="string",
+     *                     description="Nova senha do usuario",
+     *                 ),
+     *                 required={"current_password", "current_password"},
+     *             )
+     *         )
+     *     ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation"
+     *       ),
+     *     @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *       ),
+     *      @OA\Response(
+     *          response=422,
+     *          description="Unprocessed Entity"
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
+     *    )
+     * )
+     */
     public function changePassword(Request $request): JsonResponse
     {
         try {
