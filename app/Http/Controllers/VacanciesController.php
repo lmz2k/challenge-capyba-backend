@@ -18,6 +18,206 @@ class VacanciesController extends Controller
         $this->vacancyService = $vacancyService;
     }
 
+    /**
+     * @OA\Get(
+     *     tags={"Vagas de emprego"},
+     *     path="/api/vacancy",
+     *     path="/api/vacancy",
+     *     description="Listagem de vagas de emprego ( Para listar as vagas criadas pelo usuario, envie o token do usuario )",
+     *  @OA\Parameter(
+     *     name="hiring_mode",
+     *     required=false,
+     *     description="Tipo de contratação",
+     *     in="query",
+     *     @OA\Schema(
+     *         type="string"
+     *      )
+     *    ),
+     *  @OA\Parameter(
+     *     name="is_home_office",
+     *     required=false,
+     *     description="Boolean representando se é home office ou não",
+     *     in="query",
+     *     @OA\Schema(
+     *         type="boolean"
+     *      )
+     *    ),
+     *  @OA\Parameter(
+     *     name="salary",
+     *     required=false,
+     *     description="Tipo de ordenação a partir do valor do salario",
+     *     in="query",
+     *     @OA\Schema(
+     *         type="string"
+     *      )
+     *    ),
+     *  @OA\Parameter(
+     *     name="created_at",
+     *     required=false,
+     *     description="Tipo de ordenação a partir da data de criação da vaga",
+     *     in="query",
+     *     @OA\Schema(
+     *         type="string"
+     *      )
+     *    ),
+     *  @OA\Parameter(
+     *     name="search",
+     *     required=false,
+     *     description="Pequisa textual para encontrar vaga",
+     *     in="query",
+     *     @OA\Schema(
+     *         type="string"
+     *      )
+     *    ),
+     *  @OA\Parameter(
+     *     name="occupation",
+     *     required=false,
+     *     description="Tipo de vaga, back, front ou full stack",
+     *     in="query",
+     *     @OA\Schema(
+     *         type="string"
+     *      )
+     *    ),
+     *  @OA\Parameter(
+     *     name="page",
+     *     required=true,
+     *     description="Pagina da pesquisa",
+     *     in="query",
+     *     @OA\Schema(
+     *         type="integer"
+     *      )
+     *    ),
+     *  @OA\Parameter(
+     *     name="per_page",
+     *     required=true,
+     *     description="Quantidade de itens por pagina",
+     *     in="query",
+     *     @OA\Schema(
+     *         type="integer"
+     *      )
+     *    ),
+     *   @OA\Response(
+     *          response=200,
+     *          description="Successful operation"
+     *    ),
+     *   @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *    ),
+     *    @OA\Response(
+     *          response=422,
+     *          description="Unprocessed Entity"
+     *    ),
+     *    @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *    ),
+     *    @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *     )
+     *)
+     */
+    /**
+     * @OA\Get(
+     *     tags={"Vagas de emprego"},
+     *     path="/api/vacancy/my",
+     *     description="Listagem de vagas de emprego criadas pelo usuario",
+     *     security={{ "apiAuth": {} }},
+     *  @OA\Parameter(
+     *     name="hiring_mode",
+     *     required=false,
+     *     description="Tipo de contratação",
+     *     in="query",
+     *     @OA\Schema(
+     *         type="string"
+     *      )
+     *    ),
+     *  @OA\Parameter(
+     *     name="is_home_office",
+     *     required=false,
+     *     description="Boolean representando se é home office ou não",
+     *     in="query",
+     *     @OA\Schema(
+     *         type="boolean"
+     *      )
+     *    ),
+     *  @OA\Parameter(
+     *     name="salary",
+     *     required=false,
+     *     description="Tipo de ordenação a partir do valor do salario",
+     *     in="query",
+     *     @OA\Schema(
+     *         type="string"
+     *      )
+     *    ),
+     *  @OA\Parameter(
+     *     name="created_at",
+     *     required=false,
+     *     description="Tipo de ordenação a partir da data de criação da vaga",
+     *     in="query",
+     *     @OA\Schema(
+     *         type="string"
+     *      )
+     *    ),
+     *  @OA\Parameter(
+     *     name="search",
+     *     required=false,
+     *     description="Pequisa textual para encontrar vaga",
+     *     in="query",
+     *     @OA\Schema(
+     *         type="string"
+     *      )
+     *    ),
+     *  @OA\Parameter(
+     *     name="occupation",
+     *     required=false,
+     *     description="Tipo de vaga, back, front ou full stack",
+     *     in="query",
+     *     @OA\Schema(
+     *         type="string"
+     *      )
+     *    ),
+     *  @OA\Parameter(
+     *     name="page",
+     *     required=true,
+     *     description="Pagina da pesquisa",
+     *     in="query",
+     *     @OA\Schema(
+     *         type="integer"
+     *      )
+     *    ),
+     *  @OA\Parameter(
+     *     name="per_page",
+     *     required=true,
+     *     description="Quantidade de itens por pagina",
+     *     in="query",
+     *     @OA\Schema(
+     *         type="integer"
+     *      )
+     *    ),
+     *   @OA\Response(
+     *          response=200,
+     *          description="Successful operation"
+     *    ),
+     *   @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *    ),
+     *    @OA\Response(
+     *          response=422,
+     *          description="Unprocessed Entity"
+     *    ),
+     *    @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *    ),
+     *    @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *     )
+     *)
+     */
     public function getVacancies(Request $request): JsonResponse
     {
         try {

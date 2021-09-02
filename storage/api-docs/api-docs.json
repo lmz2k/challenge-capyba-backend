@@ -429,6 +429,210 @@
                     }
                 ]
             }
+        },
+        "/api/vacancy": {
+            "get": {
+                "tags": [
+                    "Vagas de emprego"
+                ],
+                "description": "Listagem de vagas de emprego ( Para listar as vagas criadas pelo usuario, envie o token do usuario )",
+                "parameters": [
+                    {
+                        "name": "hiring_mode",
+                        "in": "query",
+                        "description": "Tipo de contratação",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "is_home_office",
+                        "in": "query",
+                        "description": "Boolean representando se é home office ou não",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "salary",
+                        "in": "query",
+                        "description": "Tipo de ordenação a partir do valor do salario",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "created_at",
+                        "in": "query",
+                        "description": "Tipo de ordenação a partir da data de criação da vaga",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Pequisa textual para encontrar vaga",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "occupation",
+                        "in": "query",
+                        "description": "Tipo de vaga, back, front ou full stack",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Pagina da pesquisa",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Quantidade de itens por pagina",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "422": {
+                        "description": "Unprocessed Entity"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/api/vacancy/my": {
+            "get": {
+                "tags": [
+                    "Vagas de emprego"
+                ],
+                "description": "Listagem de vagas de emprego criadas pelo usuario",
+                "operationId": "e3fbf5d82abafad979466c5bd3a56c97",
+                "parameters": [
+                    {
+                        "name": "hiring_mode",
+                        "in": "query",
+                        "description": "Tipo de contratação",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "is_home_office",
+                        "in": "query",
+                        "description": "Boolean representando se é home office ou não",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "salary",
+                        "in": "query",
+                        "description": "Tipo de ordenação a partir do valor do salario",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "created_at",
+                        "in": "query",
+                        "description": "Tipo de ordenação a partir da data de criação da vaga",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Pequisa textual para encontrar vaga",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "occupation",
+                        "in": "query",
+                        "description": "Tipo de vaga, back, front ou full stack",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Pagina da pesquisa",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Quantidade de itens por pagina",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "422": {
+                        "description": "Unprocessed Entity"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            }
         }
     },
     "components": {
