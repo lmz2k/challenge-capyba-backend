@@ -277,7 +277,7 @@
                 "parameters": [
                     {
                         "name": "search",
-                        "in": "path",
+                        "in": "query",
                         "description": "Nome da cidade para pesquisar",
                         "required": false,
                         "schema": {
@@ -295,7 +295,7 @@
                     },
                     {
                         "name": "per_page",
-                        "in": "path",
+                        "in": "query",
                         "description": "Quantidade de items por pagina",
                         "required": true,
                         "schema": {
@@ -435,7 +435,7 @@
                 "tags": [
                     "Vagas de emprego"
                 ],
-                "description": "Listagem de vagas de emprego ( Para listar as vagas criadas pelo usuario, envie o token do usuario )",
+                "description": "Listagem de vagas de emprego",
                 "parameters": [
                     {
                         "name": "hiring_mode",
@@ -443,7 +443,16 @@
                         "description": "Tipo de contratação",
                         "required": false,
                         "schema": {
-                            "type": "string"
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "default": "BOTH",
+                                "enum": [
+                                    "BOTH",
+                                    "CLT",
+                                    "PJ"
+                                ]
+                            }
                         }
                     },
                     {
@@ -461,7 +470,15 @@
                         "description": "Tipo de ordenação a partir do valor do salario",
                         "required": false,
                         "schema": {
-                            "type": "string"
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "default": "asc",
+                                "enum": [
+                                    "asc",
+                                    "desc"
+                                ]
+                            }
                         }
                     },
                     {
@@ -470,7 +487,15 @@
                         "description": "Tipo de ordenação a partir da data de criação da vaga",
                         "required": false,
                         "schema": {
-                            "type": "string"
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "default": "asc",
+                                "enum": [
+                                    "asc",
+                                    "desc"
+                                ]
+                            }
                         }
                     },
                     {
@@ -488,7 +513,16 @@
                         "description": "Tipo de vaga, back, front ou full stack",
                         "required": false,
                         "schema": {
-                            "type": "string"
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "default": "FULL",
+                                "enum": [
+                                    "BACK",
+                                    "FRONT",
+                                    "FULL"
+                                ]
+                            }
                         }
                     },
                     {
@@ -497,7 +531,8 @@
                         "description": "Pagina da pesquisa",
                         "required": true,
                         "schema": {
-                            "type": "integer"
+                            "type": "integer",
+                            "default": 1
                         }
                     },
                     {
@@ -506,7 +541,8 @@
                         "description": "Quantidade de itens por pagina",
                         "required": true,
                         "schema": {
-                            "type": "integer"
+                            "type": "integer",
+                            "default": 20
                         }
                     }
                 ],
@@ -543,7 +579,16 @@
                         "description": "Tipo de contratação",
                         "required": false,
                         "schema": {
-                            "type": "string"
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "default": "BOTH",
+                                "enum": [
+                                    "BOTH",
+                                    "CLT",
+                                    "PJ"
+                                ]
+                            }
                         }
                     },
                     {
@@ -561,7 +606,15 @@
                         "description": "Tipo de ordenação a partir do valor do salario",
                         "required": false,
                         "schema": {
-                            "type": "string"
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "default": "asc",
+                                "enum": [
+                                    "asc",
+                                    "desc"
+                                ]
+                            }
                         }
                     },
                     {
@@ -570,7 +623,15 @@
                         "description": "Tipo de ordenação a partir da data de criação da vaga",
                         "required": false,
                         "schema": {
-                            "type": "string"
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "default": "asc",
+                                "enum": [
+                                    "asc",
+                                    "desc"
+                                ]
+                            }
                         }
                     },
                     {
@@ -588,7 +649,16 @@
                         "description": "Tipo de vaga, back, front ou full stack",
                         "required": false,
                         "schema": {
-                            "type": "string"
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "default": "FULL",
+                                "enum": [
+                                    "BACK",
+                                    "FRONT",
+                                    "FULL"
+                                ]
+                            }
                         }
                     },
                     {
@@ -597,7 +667,8 @@
                         "description": "Pagina da pesquisa",
                         "required": true,
                         "schema": {
-                            "type": "integer"
+                            "type": "integer",
+                            "default": 1
                         }
                     },
                     {
@@ -606,12 +677,92 @@
                         "description": "Quantidade de itens por pagina",
                         "required": true,
                         "schema": {
-                            "type": "integer"
+                            "type": "integer",
+                            "default": 20
                         }
                     }
                 ],
                 "responses": {
                     "200": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "422": {
+                        "description": "Unprocessed Entity"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/vacancy/": {
+            "post": {
+                "tags": [
+                    "Vagas de emprego"
+                ],
+                "description": "EP para alterar senha de um usuario",
+                "operationId": "fb51db9ddaa6c29420af11bf463d8335",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "title",
+                                    "description",
+                                    "salary",
+                                    "is_home_office",
+                                    "occupation",
+                                    "city_id",
+                                    "hiring_mode"
+                                ],
+                                "properties": {
+                                    "title": {
+                                        "description": "titulo da vaga",
+                                        "type": "string"
+                                    },
+                                    "description": {
+                                        "description": "Descrição da vaga",
+                                        "type": "string"
+                                    },
+                                    "salary": {
+                                        "description": "Valor da vaga",
+                                        "type": "number"
+                                    },
+                                    "is_home_office": {
+                                        "description": "Boolean reprsentando se a vaga é home office",
+                                        "type": "boolean"
+                                    },
+                                    "occupation": {
+                                        "description": "Ocupação [BACK, FRONT ou FULL]",
+                                        "type": "boolean"
+                                    },
+                                    "city_id": {
+                                        "description": "Id da cidade da empresa da vaga",
+                                        "type": "integer"
+                                    },
+                                    "hiring_mode": {
+                                        "description": "Tipo de contratação [CLT, PJ ou BOTH]",
+                                        "type": "boolean"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
                         "description": "Successful operation"
                     },
                     "400": {

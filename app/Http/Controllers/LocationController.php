@@ -26,7 +26,7 @@ class LocationController extends Controller
      *     name="search",
      *     required=false,
      *     description="Nome da cidade para pesquisar",
-     *     in="path",
+     *     in="query",
      *     @OA\Schema(
      *         type="string"
      *      )
@@ -44,7 +44,7 @@ class LocationController extends Controller
      *     name="per_page",
      *     required=true,
      *     description="Quantidade de items por pagina",
-     *     in="path",
+     *     in="query",
      *     @OA\Schema(
      *         type="integer"
      *      )
