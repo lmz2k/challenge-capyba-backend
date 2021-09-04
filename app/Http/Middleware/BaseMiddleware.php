@@ -3,6 +3,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Exceptions\NotVerifiedException;
 use App\Models\RegisterConfirm;
 use App\Models\TokenTacking;
 use App\Models\User;
@@ -66,6 +67,13 @@ class BaseMiddleware
         return $authArray[1];
     }
 
+    protected function validateUserHasConfirmedByEmail($user)
+    {
+        if (!$user->verified) {
+            throw new NotVerifiedException();
+        }
+    }
+
     protected function validateUserTokenOnDatabase($token)
     {
         TokenTacking::where('token', $token)->firstOrFail();
@@ -78,5 +86,6 @@ class BaseMiddleware
     {
         RegisterConfirm::where('token', $token)->firstOrFail();
     }
+
 
 }
