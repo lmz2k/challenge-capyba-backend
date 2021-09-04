@@ -18,6 +18,10 @@ class AuthController extends Controller
 {
     private AuthServiceInterface $authService;
 
+    /**
+     * AuthController constructor.
+     * @param AuthServiceInterface $authService
+     */
     public function __construct(AuthServiceInterface $authService)
     {
         $this->authService = $authService;

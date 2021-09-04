@@ -18,6 +18,13 @@ class ProfileService implements ProfileServiceInterface
     private UserRepositoryInterface $userRepository;
     private HashServiceInterface $hashService;
 
+    /**
+     * ProfileService constructor.
+     * @param FtpServiceInterface $ftpService
+     * @param ProfileRepositoryInterface $profileRepository
+     * @param UserRepositoryInterface $userRepository
+     * @param HashServiceInterface $hashService
+     */
     public function __construct(
         FtpServiceInterface $ftpService,
         ProfileRepositoryInterface $profileRepository,

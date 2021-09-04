@@ -13,6 +13,10 @@ class ProfileController extends Controller
 {
     private ProfileServiceInterface $profileService;
 
+    /**
+     * ProfileController constructor.
+     * @param ProfileServiceInterface $profileService
+     */
     public function __construct(ProfileServiceInterface $profileService)
     {
         $this->profileService = $profileService;

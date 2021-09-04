@@ -10,6 +10,10 @@ class LocationService implements LocationServiceInterface
 {
     private LocationRepositoryInterface $locationRepository;
 
+    /**
+     * LocationService constructor.
+     * @param LocationRepositoryInterface $locationRepository
+     */
     public function __construct(LocationRepositoryInterface $locationRepository)
     {
         $this->locationRepository = $locationRepository;

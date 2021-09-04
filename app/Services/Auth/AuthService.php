@@ -27,6 +27,15 @@ class AuthService implements AuthServiceInterface
     private AuthRepositoryInterface $authRepository;
     private UserRepositoryInterface $userRepository;
 
+    /**
+     * AuthService constructor.
+     * @param FtpServiceInterface $ftpService
+     * @param MailServiceInterface $mailService
+     * @param HashServiceInterface $hashService
+     * @param JwtServiceInterface $jwtService
+     * @param AuthRepositoryInterface $authRepository
+     * @param UserRepository $userRepository
+     */
     public function __construct(
         FtpServiceInterface $ftpService,
         MailServiceInterface $mailService,

@@ -13,6 +13,10 @@ class VacanciesController extends Controller
 {
     private VacancyServiceInterface $vacancyService;
 
+    /**
+     * VacanciesController constructor.
+     * @param VacancyServiceInterface $vacancyService
+     */
     public function __construct(VacancyServiceInterface $vacancyService)
     {
         $this->vacancyService = $vacancyService;

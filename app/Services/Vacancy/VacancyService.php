@@ -9,11 +9,26 @@ class VacancyService implements VacancyServiceInterface
 {
     private VacancyRepositoryInterface $vacancyRepository;
 
+    /**
+     * VacancyService constructor.
+     * @param VacancyRepositoryInterface $vacancyRepository
+     */
     public function __construct(VacancyRepositoryInterface $vacancyRepository)
     {
         $this->vacancyRepository = $vacancyRepository;
     }
 
+    /**
+     * @param $userId
+     * @param $title
+     * @param $description
+     * @param $salary
+     * @param $isHomeOffice
+     * @param $occupation
+     * @param $cityId
+     * @param $hiringMode
+     * @return mixed
+     */
     public function createVacancy(
         $userId,
         $title,
@@ -36,6 +51,19 @@ class VacancyService implements VacancyServiceInterface
         );
     }
 
+    /**
+     * @param $userId
+     * @param $search
+     * @param $hiringMode
+     * @param $occupation
+     * @param $isHomeOffice
+     * @param $cityId
+     * @param $salary
+     * @param $createdAt
+     * @param $page
+     * @param $perPage
+     * @return mixed
+     */
     public function getList(
         $userId,
         $search,

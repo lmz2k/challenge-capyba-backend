@@ -66,7 +66,7 @@ $app->configure('filesystems');
 $app->register(Illuminate\Filesystem\FilesystemServiceProvider::class);
 /*
 |--------------------------------------------------------------------------
-| Register Middleware
+| Register BaseMiddleware
 |--------------------------------------------------------------------------
 |
 | Next, we will register the middleware with the application. These can
@@ -76,7 +76,7 @@ $app->register(Illuminate\Filesystem\FilesystemServiceProvider::class);
 */
 
 // $app->middleware([
-//     App\Http\Middleware\ExampleMiddleware::class
+//     App\Http\BaseMiddleware\ExampleMiddleware::class
 // ]);
 
 $app->routeMiddleware(
