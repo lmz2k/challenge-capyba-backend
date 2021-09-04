@@ -6,7 +6,7 @@ namespace App\Repositories\User;
 
 interface UserRepositoryInterface
 {
-    public function findUserByEmail($email);
-    public function findUserById($id);
+    public function findUserByAttribute($attribute, $value);
+
     public function updateUser($id, $attributes);
 }

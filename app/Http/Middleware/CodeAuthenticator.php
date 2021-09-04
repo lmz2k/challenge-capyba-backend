@@ -9,38 +9,25 @@ use Closure;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use UnexpectedValueException;
 
-class CodeAuthenticator
+class CodeAuthenticator extends BaseMiddleware
 {
 
-    private JwtServiceInterface $jwtService;
-
-    public function __construct(JwtServiceInterface $jwtService)
-    {
-        $this->jwtService = $jwtService;
-    }
-
+    /**
+     * @param $request
+     * @param Closure $next
+     * @return \Illuminate\Http\JsonResponse|mixed
+     */
     public function handle($request, Closure $next)
     {
         try {
-            $authorizationHeader = $request->header('Authorization');
-            $authArray = explode(' ', $authorizationHeader);
+            // check if request has authorization header and get token
+            $token = $this->getAuthorizationToken($request->header('Authorization'));
 
-            if (count($authArray) === 1) {
-                return response('Unexpected token formation (Did you forget to put Bearer before the token?)', 400);
-            }
+            // try to decode token to validate if is valid token on system
+            $this->getDecodedToken($token);
 
-            $token = $authArray[1];
-
-            if (strlen($token) === 0) {
-                return response()->json(['message' => 'Missing token'], 403);
-            }
-            $validToken = $this->jwtService->validate($token);
-
-            if (!$validToken) {
-                return response()->json(['message' => 'Invalid token'], 403);
-            }
-
-            RegisterConfirm::where('token', $token)->firstOrFail();
+            // check if token is registered on database
+            $this->validateCodeConfirmTokenOnDatabase($token);
 
             return $next($request);
         } catch (\Exception $e) {
@@ -50,7 +37,7 @@ class CodeAuthenticator
                 $message = 'Expired JWT';
             }
 
-            if($e instanceof UnexpectedValueException){
+            if ($e instanceof UnexpectedValueException) {
                 $message = 'Unauthorized';
             }
 

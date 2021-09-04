@@ -21,7 +21,7 @@ class UserSeeder extends Seeder
                 [
                     'name' => Str::random(10),
                     'email' => Str::random(10).'@gmail.com',
-                    'photo' => Str::random(10),
+                    'photo' => 'https://storage.glima.me/capyba.jpeg',
                     'password' => Hash::make('password'),
                 ],
             );

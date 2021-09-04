@@ -2,60 +2,53 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\RegisterConfirm;
-use App\Models\TokenTacking;
-use App\models\User;
-use App\Services\Jwt\JwtServiceInterface;
+use App\Exceptions\NotVerifiedException;
 use Closure;
-use Firebase\JWT\JWT;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use UnexpectedValueException;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
+use Laravel\Lumen\Http\ResponseFactory;
 
-class Authenticate
+class Authenticate extends BaseMiddleware
 {
-    private JwtServiceInterface $jwtService;
-
-    public function __construct(JwtServiceInterface $jwtService)
-    {
-        $this->jwtService = $jwtService;
-    }
-
+    /**
+     * @param $request
+     * @param Closure $next
+     * @param null $guard
+     * @return JsonResponse|Response|ResponseFactory|mixed
+     */
     public function handle($request, Closure $next, $guard = null)
     {
         try {
-            $authorizationHeader = $request->header('Authorization');
-            $authArray = explode(' ', $authorizationHeader);
+            // check if request has authorization header and get token
+            $token = $this->getAuthorizationToken($request->header('Authorization'));
 
-            if (count($authArray) === 1) {
-                return response('Unexpected token formation (Did you forget to put Bearer before the token?)', 400);
-            }
+            $decodedToken = $this->getDecodedToken($token);
 
-            $token = $authArray[1];
+            // check if token is registered on database
+            $this->validateUserTokenOnDatabase($token);
 
-            if (strlen($token) === 0) {
-                return response()->json(['message' => 'Missing token'], 403);
-            }
-            $validToken = $this->jwtService->validate($token);
+            $user = $this->findUserFromId($decodedToken->id);
 
-            if (!$validToken) {
-                return response()->json(['message' => 'Invalid token'], 403);
-            }
+            // check if user has previously confirm email
 
-            TokenTacking::where('token', $token)->firstOrFail();
+            $this->validateUserHasConfirmedByEmail($user);
+            // saving logged user on request memory
+            $request->user = $this->findUserFromId($decodedToken->id);
 
-            $request->user = User::find($validToken->id);
             return $next($request);
-
         } catch (\Exception $e) {
             $message = 'Invalid token';
 
-            if ($e instanceof ModelNotFoundException || $e instanceof ModelNotFoundException) {
+            if ($e instanceof ModelNotFoundException) {
                 $message = 'Unauthorized';
+            }
+
+            if ($e instanceof NotVerifiedException) {
+                $message = 'You must confirm your email first';
             }
 
             return response()->json(['message' => $message], 403);
         }
-
-        return $next($request);
     }
 }

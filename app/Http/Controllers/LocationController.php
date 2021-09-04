@@ -12,6 +12,10 @@ class LocationController extends Controller
 {
     private LocationServiceInterface $locationService;
 
+    /**
+     * LocationController constructor.
+     * @param LocationServiceInterface $locationService
+     */
     public function __construct(LocationServiceInterface $locationService)
     {
         $this->locationService = $locationService;

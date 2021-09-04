@@ -27,6 +27,15 @@ class AuthService implements AuthServiceInterface
     private AuthRepositoryInterface $authRepository;
     private UserRepositoryInterface $userRepository;
 
+    /**
+     * AuthService constructor.
+     * @param FtpServiceInterface $ftpService
+     * @param MailServiceInterface $mailService
+     * @param HashServiceInterface $hashService
+     * @param JwtServiceInterface $jwtService
+     * @param AuthRepositoryInterface $authRepository
+     * @param UserRepository $userRepository
+     */
     public function __construct(
         FtpServiceInterface $ftpService,
         MailServiceInterface $mailService,
@@ -36,7 +45,6 @@ class AuthService implements AuthServiceInterface
         UserRepository $userRepository
     ) {
         $this->ftpService = $ftpService;
-
         $this->mailService = $mailService;
         $this->hashService = $hashService;
         $this->jwtService = $jwtService;
@@ -50,6 +58,7 @@ class AuthService implements AuthServiceInterface
      * @param $password
      * @param $photo
      * @return array
+     * @throws \Exception
      */
     public function register($name, $email, $password, $photo): array
     {
@@ -74,7 +83,7 @@ class AuthService implements AuthServiceInterface
      */
     public function login($email, $password): array
     {
-        $user = $this->userRepository->findUserByEmail($email);
+        $user = $this->userRepository->findUserByAttribute(User::EMAIL, $email);
         $this->validatePassword($user, $password);
         $this->validateEmailNotVerified($user);
 
@@ -96,10 +105,11 @@ class AuthService implements AuthServiceInterface
      * @param $email
      * @return array
      * @throws AlreadyVerified
+     * @throws \Exception
      */
     public function resendCode($email): array
     {
-        $user = $this->userRepository->findUserByEmail($email);
+        $user = $this->userRepository->findUserByAttribute(User::EMAIL, $email);
 
         $this->validateEmailAlreadyVerified($user);
         $this->invalidateOldCodes($user);
@@ -120,13 +130,17 @@ class AuthService implements AuthServiceInterface
     public function confirmCode($token, $code): array
     {
         $registerConfirms = $this->authRepository->getRegisterConfirmFromToken($token);
+
         $codeHash = $registerConfirms->code_hash;
-        $user = $this->userRepository->findUserById($registerConfirms->user_id);
+
+        $user = $this->userRepository->findUserByAttribute(User::ID, $registerConfirms->user_id);
 
         $this->checkCodeIsEqual($codeHash, $code);
 
-        $this->userRepository->updateUser($user->id, ['verified' => 1]);
+        $this->userRepository->updateUser($user->id, [User::VERIFIED => 1]);
+
         $this->invalidateOldCodes($user);
+
         $jwt = $this->generateToken($user);
 
         return [
@@ -136,20 +150,27 @@ class AuthService implements AuthServiceInterface
     }
 
     /**
+     * @return mixed
+     */
+    public function privacyPolicy()
+    {
+        $pdf = PDF::loadView('terms');
+        return $pdf->download('terms.pdf');
+    }
+
+    /**
      * @param $codeHash
      * @param $code
-     * @return mixed
+     * @return void
      * @throws WrongCodeException
      */
-    public function checkCodeIsEqual($codeHash, $code)
+    private function checkCodeIsEqual($codeHash, $code): void
     {
         $isValid = $this->hashService->validate($codeHash, $code);
 
         if (!$isValid) {
             throw new WrongCodeException();
         }
-
-        return $isValid;
     }
 
     /**
@@ -159,6 +180,8 @@ class AuthService implements AuthServiceInterface
     private function generateToken($user)
     {
         $object = $user->toArray();
+        $object['generate_date'] = Carbon::now();
+
         $jwt = $this->jwtService->create($object);
 
         $this->authRepository->trackToken($jwt);
@@ -168,21 +191,21 @@ class AuthService implements AuthServiceInterface
 
     /**
      * @param $user
-     * @return bool
+     * @return void
      * @throws AlreadyVerified
      */
-    private function validateEmailAlreadyVerified($user): bool
+    private function validateEmailAlreadyVerified($user): void
     {
         if ($user->verified) {
             throw new AlreadyVerified();
         }
-        return $user->verified;
     }
 
     /**
      * @param $user
      * @return bool
      * @throws NotVerifiedException
+     * @throws \Exception
      */
     private function validateEmailNotVerified($user): bool
     {
@@ -197,18 +220,16 @@ class AuthService implements AuthServiceInterface
     /**
      * @param $user
      * @param $password
-     * @return mixed
+     * @return void
      * @throws WrongPasswordException
      */
-    private function validatePassword($user, $password)
+    private function validatePassword($user, $password): void
     {
         $validPassword = $this->hashService->validate($user->password, $password);
 
         if (!$validPassword) {
             throw new WrongPasswordException();
         }
-
-        return $validPassword;
     }
 
     /**
@@ -222,6 +243,7 @@ class AuthService implements AuthServiceInterface
     /**
      * @param User $user
      * @return mixed
+     * @throws \Exception
      */
     private function registerCodeAndSendByEmail(User $user)
     {
@@ -255,11 +277,5 @@ class AuthService implements AuthServiceInterface
         }
 
         return random_int(10000, 999999);
-    }
-
-    public function privacyPolicy()
-    {
-        $pdf = PDF::loadView('terms');
-        return $pdf->download('terms.pdf');
     }
 }
