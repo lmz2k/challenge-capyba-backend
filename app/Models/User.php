@@ -14,6 +14,13 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 {
     use Authenticatable, Authorizable, HasFactory, SoftDeletes;
 
+    const ID = 'id';
+    const NAME = 'name';
+    const EMAIL = 'email';
+    const PASSWORD = 'password';
+    const PHOTO = 'photo';
+    const VERIFIED = 'verified';
+
     protected $fillable = [
         'name',
         'email',
