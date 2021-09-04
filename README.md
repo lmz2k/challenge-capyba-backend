@@ -1,7 +1,7 @@
 # Desafio backend Capyba - Gabriel Lima
 
-Para contemplar os requisitos desse desafio, foi desenvolvido uma API para um sistema de divulgação de vagas de emprego para DEVS,
-onde é possível criar e procurar vagas.
+Para contemplar os requisitos desse desafio, foi desenvolvido uma API para um sistema de divulgação de vagas de emprego
+para DEVS, onde é possível criar e procurar vagas.
 
 ## 1 - Framework
 
@@ -10,15 +10,40 @@ Para esse desafio foi escolhido o framework PHP [Lumen](https://lumen.laravel.co
 O laravel é um framework super completo, porém o lumen é uma versão mais enxuta, trazendo apenas as principais features
 necessárias para o desenvolvimento de uma API, visando isso, o escolhi para solucionar esse desafio.
 
-## 2 - Features realizadas
+## 2 - Features
 
-- Endpoint para cadastro de usuario :grapes:
+1 - Principais:
+
+- Endpoint para cadastro de usuário :white_check_mark:
+- Endpoint de termos de uso e políticas de privacidade :white_check_mark:
+- Endpoint Login :white_check_mark:
+- Endpoint Logout :white_check_mark:
+- Endpoint com listagem de itens públicos ( com todos requisitos ) :white_check_mark:
+- Endpoint para listagem de itens restritos ( com todos requisitos ) :white_check_mark:
+- Endpoint para editar perfil :white_check_mark:
+- Endpoint para confirmar token recebido por email :white_check_mark:
+- Endpoint para reenviar token para email :white_check_mark:
+- Testes :white_check_mark:
+- SWAGGER :white_check_mark:
+- README :white_check_mark:
 
 
-## Security Vulnerabilities
+2 - Bônus
 
-If you discover a security vulnerability within Lumen, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+- Deploy :white_check_mark:
+- Acesso admin 	:x:
+- Endpoint para alterar senha com confirmação da senha atual :white_check_mark:
+- Cadastro via API do google 	:x:
+- Seed :white_check_mark:
 
-## License
+## 3 - Regra de negócio
 
-The Lumen framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Ao criar uma conta no sistema, será enviado um email para o email inserido, com um código, esse código deve ser confirmado.
+( Mesmo tendo a conta criada mas o email ainda não tenha sido confirmado, o sistema deve bloquear acesso do usuário nas
+rotas restritas ), caso o email não chegue, ou tenha o desejo de gerar um novo código, o sistema também disponibiliza 
+essa funcionalidade.
+
+É possível procurar de forma paginada vagas disponíveis, podendo filtrar por modo de contratação ( PJ, CLT ou AMBOS ),
+área de atuação ( BACKEND, FRONTEND ou FULLSTACK), também é possível filtrar se deseja apenas vagas home office ou não,
+é possível pesquisar via texto também pelo nome, descrição ou cidade da vaga, e decidir a ordenação por data de anúncio
+da vaga e/ou salário.
