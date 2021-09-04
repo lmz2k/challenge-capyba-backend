@@ -32,7 +32,6 @@ class VacanciesSeeder extends Seeder
         $usersIds = $users->pluck('id');
 
         for ($i = 0; $i < 25; $i += 1) {
-
             $randomUserIndex = random_int(0, 4);
             $randomOccupationIndex = random_int(0, 2);
             $randomHiringIndex = random_int(0, 2);
@@ -43,7 +42,7 @@ class VacanciesSeeder extends Seeder
             $randomString = Str::random(10);
 
             $vacancyObjects[] = [
-                'title' => $randomString,
+                'title' => "Vaga de trabalho na " . $randomString,
                 'description' => $randomString,
                 'salary' => $salary,
                 'occupation' => $occupations[$randomOccupationIndex],
