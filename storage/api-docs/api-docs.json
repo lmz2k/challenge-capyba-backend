@@ -1,0 +1,809 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Desafio backend capyba",
+        "description": "Documentação da api desenvolvida para desafio backend para capyba - Gabriel Lima",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/auth/register": {
+            "post": {
+                "tags": [
+                    "Autorização"
+                ],
+                "description": "EP para dadastro de novo usuário no sistema.",
+                "operationId": "d764dd091cc4494ae0baf360b03319f3",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "password",
+                                    "photo"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "description": "Nome do usuário",
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "description": "Email do usuário",
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "description": "Senha do usúario",
+                                        "type": "string"
+                                    },
+                                    "photo": {
+                                        "description": "Foto de perfil do funcionário",
+                                        "type": "file"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "422": {
+                        "description": "Unprocessed Entity"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/api/auth/login": {
+            "post": {
+                "tags": [
+                    "Autorização"
+                ],
+                "description": "EP para logar no sistema",
+                "operationId": "8dcb70df1020986038d098cc08d05dae",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "description": "Email do usuário",
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "description": "Senha do usúario",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "422": {
+                        "description": "Unprocessed Entity"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/api/auth/logout": {
+            "post": {
+                "tags": [
+                    "Autorização"
+                ],
+                "description": "EP para deslogar no sistema",
+                "operationId": "69281b12abb272c76871f19cb17ca563",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "422": {
+                        "description": "Unprocessed Entity"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/auth/privacy/policy": {
+            "get": {
+                "tags": [
+                    "Autorização"
+                ],
+                "description": "Termos de uso e politica de privacidade em PDF",
+                "operationId": "d108ba8c8ebdd6b723dc8acf6091d53f",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "422": {
+                        "description": "Unprocessed Entity"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/api/auth/code/confirm": {
+            "post": {
+                "tags": [
+                    "Autorização"
+                ],
+                "description": "EP para confirmar codigo recebido por email",
+                "operationId": "564695eeddb600c33244c43a89d7cbec",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "code"
+                                ],
+                                "properties": {
+                                    "code": {
+                                        "description": "Cádigo recebido por email",
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "code": 123456
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "422": {
+                        "description": "Unprocessed Entity"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "codeAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/auth/code/resend": {
+            "post": {
+                "tags": [
+                    "Autorização"
+                ],
+                "description": "EP para reenviar codigo de verificação por email",
+                "operationId": "e270d8c83242306497ee15de43ab6a25",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "description": "Email para reenviar codigo de ativação de conta",
+                                        "type": "email"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "422": {
+                        "description": "Unprocessed Entity"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/api/location": {
+            "get": {
+                "tags": [
+                    "Localização"
+                ],
+                "description": "EP para buscar cidades no sistema paginado",
+                "operationId": "0d045115f840ab5b3ddc635881f90c92",
+                "parameters": [
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Nome da cidade para pesquisar",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "path",
+                        "description": "Numero da pagina",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Quantidade de items por pagina",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "422": {
+                        "description": "Unprocessed Entity"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/api/profile/": {
+            "post": {
+                "tags": [
+                    "Perfil (Rota autenticada)"
+                ],
+                "description": "EP para alterar dados de um usuario logado",
+                "operationId": "7a58251caab876a192776435762575f7",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "description": "Novo email do usuário",
+                                        "type": "string"
+                                    },
+                                    "name": {
+                                        "description": "Novo nome do usuario",
+                                        "type": "string"
+                                    },
+                                    "photo": {
+                                        "description": "Nova foto de perfil do funcionário",
+                                        "type": "file"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "422": {
+                        "description": "Unprocessed Entity"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/profile/password": {
+            "post": {
+                "tags": [
+                    "Perfil (Rota autenticada)"
+                ],
+                "description": "EP para alterar senha de um usuario",
+                "operationId": "ed15ecd3d1f1bc3b47cebd88af13b178",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "current_password",
+                                    "current_password"
+                                ],
+                                "properties": {
+                                    "current_password": {
+                                        "description": "Senha atual do usuario",
+                                        "type": "string"
+                                    },
+                                    "new_password": {
+                                        "description": "Nova senha do usuario",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "422": {
+                        "description": "Unprocessed Entity"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/vacancy": {
+            "get": {
+                "tags": [
+                    "Vagas de emprego"
+                ],
+                "description": "Listagem de vagas de emprego",
+                "parameters": [
+                    {
+                        "name": "hiring_mode",
+                        "in": "query",
+                        "description": "Tipo de contratação",
+                        "required": false,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "default": "BOTH",
+                                "enum": [
+                                    "BOTH",
+                                    "CLT",
+                                    "PJ"
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "name": "is_home_office",
+                        "in": "query",
+                        "description": "Boolean representando se é home office ou não",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "salary",
+                        "in": "query",
+                        "description": "Tipo de ordenação a partir do valor do salario",
+                        "required": false,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "default": "asc",
+                                "enum": [
+                                    "asc",
+                                    "desc"
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "name": "created_at",
+                        "in": "query",
+                        "description": "Tipo de ordenação a partir da data de criação da vaga",
+                        "required": false,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "default": "asc",
+                                "enum": [
+                                    "asc",
+                                    "desc"
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Pequisa textual para encontrar vaga",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "occupation",
+                        "in": "query",
+                        "description": "Tipo de vaga, back, front ou full stack",
+                        "required": false,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "default": "FULL",
+                                "enum": [
+                                    "BACK",
+                                    "FRONT",
+                                    "FULL"
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Pagina da pesquisa",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Quantidade de itens por pagina",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "default": 20
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "422": {
+                        "description": "Unprocessed Entity"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/api/vacancy/my": {
+            "get": {
+                "tags": [
+                    "Vagas de emprego"
+                ],
+                "description": "Listagem de vagas de emprego criadas pelo usuario",
+                "operationId": "e3fbf5d82abafad979466c5bd3a56c97",
+                "parameters": [
+                    {
+                        "name": "hiring_mode",
+                        "in": "query",
+                        "description": "Tipo de contratação",
+                        "required": false,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "default": "BOTH",
+                                "enum": [
+                                    "BOTH",
+                                    "CLT",
+                                    "PJ"
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "name": "is_home_office",
+                        "in": "query",
+                        "description": "Boolean representando se é home office ou não",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "salary",
+                        "in": "query",
+                        "description": "Tipo de ordenação a partir do valor do salario",
+                        "required": false,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "default": "asc",
+                                "enum": [
+                                    "asc",
+                                    "desc"
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "name": "created_at",
+                        "in": "query",
+                        "description": "Tipo de ordenação a partir da data de criação da vaga",
+                        "required": false,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "default": "asc",
+                                "enum": [
+                                    "asc",
+                                    "desc"
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Pequisa textual para encontrar vaga",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "occupation",
+                        "in": "query",
+                        "description": "Tipo de vaga, back, front ou full stack",
+                        "required": false,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "default": "FULL",
+                                "enum": [
+                                    "BACK",
+                                    "FRONT",
+                                    "FULL"
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Pagina da pesquisa",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Quantidade de itens por pagina",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "default": 20
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "422": {
+                        "description": "Unprocessed Entity"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/vacancy/": {
+            "post": {
+                "tags": [
+                    "Vagas de emprego"
+                ],
+                "description": "EP para alterar senha de um usuario",
+                "operationId": "fb51db9ddaa6c29420af11bf463d8335",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "title",
+                                    "description",
+                                    "salary",
+                                    "is_home_office",
+                                    "occupation",
+                                    "city_id",
+                                    "hiring_mode"
+                                ],
+                                "properties": {
+                                    "title": {
+                                        "description": "titulo da vaga",
+                                        "type": "string"
+                                    },
+                                    "description": {
+                                        "description": "Descrição da vaga",
+                                        "type": "string"
+                                    },
+                                    "salary": {
+                                        "description": "Valor da vaga",
+                                        "type": "number"
+                                    },
+                                    "is_home_office": {
+                                        "description": "Boolean reprsentando se a vaga é home office",
+                                        "type": "boolean"
+                                    },
+                                    "occupation": {
+                                        "description": "Ocupação [BACK, FRONT ou FULL]",
+                                        "type": "boolean"
+                                    },
+                                    "city_id": {
+                                        "description": "Id da cidade da empresa da vaga",
+                                        "type": "integer"
+                                    },
+                                    "hiring_mode": {
+                                        "description": "Tipo de contratação [CLT, PJ ou BOTH]",
+                                        "type": "boolean"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "422": {
+                        "description": "Unprocessed Entity"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "apiAuth": {
+                "type": "http",
+                "description": "Para conseguir esse token, logue com email e senha com uma conta com email verificado",
+                "name": "Bearer token",
+                "in": "header",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            },
+            "codeAuth": {
+                "type": "http",
+                "description": "Para conseguir esse token, crie uma conta, ou envie novamente um codigo para email de uma conta já cadastrada, que esse token virá na resposta da requisição",
+                "name": "Bearer token",
+                "in": "header",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    }
+}
