@@ -3,7 +3,6 @@
 
 namespace App\Http\Middleware;
 
-
 use App\Models\RegisterConfirm;
 use App\Models\TokenTacking;
 use App\Models\User;
@@ -53,7 +52,7 @@ class BaseMiddleware
      */
     protected function getAuthorizationToken($header)
     {
-        $authorizationHeader = $header('Authorization');
+        $authorizationHeader = $header;
         $authArray = explode(' ', $authorizationHeader);
 
         if (count($authArray) === 1) {
