@@ -39,7 +39,7 @@ necessárias para o desenvolvimento de uma API, visando isso, o escolhi para sol
 ## 3 - Regra de negócio
 
 Ao criar uma conta no sistema, será enviado um email para o email inserido, com um código, esse código deve ser confirmado.
-( Mesmo tendo a conta criada mas o email ainda não tenha sido confirmado, o sistema deve bloquear acesso do usuário nas
+( Mesmo com a conta criada mas o email ainda não tenha sido confirmado, o sistema deve bloquear acesso do usuário nas
 rotas restritas ), caso o email não chegue, ou tenha o desejo de gerar um novo código, o sistema também disponibiliza 
 essa funcionalidade.
 
