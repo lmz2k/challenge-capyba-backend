@@ -43,7 +43,17 @@ Ao criar uma conta no sistema, será enviado um email para o email inserido, com
 rotas restritas ), caso o email não chegue, ou tenha o desejo de gerar um novo código, o sistema também disponibiliza 
 essa funcionalidade.
 
-É possível procurar de forma paginada vagas disponíveis, podendo filtrar por modo de contratação ( PJ, CLT ou AMBOS ),
-área de atuação ( BACKEND, FRONTEND ou FULLSTACK), também é possível filtrar se deseja apenas vagas home office ou não,
-é possível pesquisar via texto também pelo nome, descrição ou cidade da vaga, e decidir a ordenação por data de anúncio
-da vaga e/ou salário.
+É possível procurar de forma paginada vagas disponíveis, podendo filtrar por modo de contratação **( PJ, CLT ou AMBOS )**,
+área de atuação **( BACKEND, FRONTEND ou FULLSTACK)**, também é possível filtrar se deseja apenas vagas **home office** ou não,
+é possível **pesquisar via texto** também pelo **nome, descrição ou cidade da vaga**, e decidir a **ordenação** por
+**data de anúncio** da vaga e/ou **salário**.
+
+
+Na área restrita do usuário logado, é possível criar uma nova vaga, e listar apenas suas vagas criadas com os mesmos
+filtros e ordenações da listagem anterior.
+
+
+
+Ainda na área restrita o usuário consegue alterar a senha de sua conta, precisando confirmar sua senha atual,
+e também editar dados da sua conta como, nome, email e foto.
+
