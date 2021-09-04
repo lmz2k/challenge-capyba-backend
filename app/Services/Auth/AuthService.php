@@ -74,7 +74,7 @@ class AuthService implements AuthServiceInterface
      */
     public function login($email, $password): array
     {
-        $user = $this->userRepository->findUserByEmail($email);
+        $user = $this->userRepository->findUserByAttribute('email', $email);
         $this->validatePassword($user, $password);
         $this->validateEmailNotVerified($user);
 
@@ -96,10 +96,11 @@ class AuthService implements AuthServiceInterface
      * @param $email
      * @return array
      * @throws AlreadyVerified
+     * @throws \Exception
      */
     public function resendCode($email): array
     {
-        $user = $this->userRepository->findUserByEmail($email);
+        $user = $this->userRepository->findUserByAttribute('email', $email);
 
         $this->validateEmailAlreadyVerified($user);
         $this->invalidateOldCodes($user);
@@ -121,7 +122,7 @@ class AuthService implements AuthServiceInterface
     {
         $registerConfirms = $this->authRepository->getRegisterConfirmFromToken($token);
         $codeHash = $registerConfirms->code_hash;
-        $user = $this->userRepository->findUserById($registerConfirms->user_id);
+        $user = $this->userRepository->findUserByAttribute('id', $registerConfirms->user_id);
 
         $this->checkCodeIsEqual($codeHash, $code);
 
@@ -133,6 +134,15 @@ class AuthService implements AuthServiceInterface
             'user' => $user,
             'token' => $jwt
         ];
+    }
+
+    /**
+     * @return mixed
+     */
+    public function privacyPolicy()
+    {
+        $pdf = PDF::loadView('terms');
+        return $pdf->download('terms.pdf');
     }
 
     /**
@@ -222,6 +232,7 @@ class AuthService implements AuthServiceInterface
     /**
      * @param User $user
      * @return mixed
+     * @throws \Exception
      */
     private function registerCodeAndSendByEmail(User $user)
     {
@@ -255,11 +266,5 @@ class AuthService implements AuthServiceInterface
         }
 
         return random_int(10000, 999999);
-    }
-
-    public function privacyPolicy()
-    {
-        $pdf = PDF::loadView('terms');
-        return $pdf->download('terms.pdf');
     }
 }

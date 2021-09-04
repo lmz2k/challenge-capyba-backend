@@ -93,6 +93,5 @@ class AuthRepository implements AuthRepositoryInterface
         $tokenTrackingIds = $tokenTracking->pluck('id');
 
         TokenTacking::destroy($tokenTrackingIds);
-
     }
 }

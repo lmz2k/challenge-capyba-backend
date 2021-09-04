@@ -42,7 +42,7 @@ class ProfileService implements ProfileServiceInterface
 
     public function changePassword($userId, $currentPassword, $newPassword)
     {
-        $user = $this->userRepository->findUserById($userId);
+        $user = $this->userRepository->findUserByAttribute('id', $userId);
         $oldPasswordHash = $user->password;
 
         $samePassword = $this->hashService->validate($oldPasswordHash, $currentPassword);
