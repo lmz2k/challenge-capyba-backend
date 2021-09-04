@@ -1,14 +1,19 @@
 # Desafio backend Capyba - Gabriel Lima
 
-Laravel Lumen is a stunningly fast PHP micro-framework for building web applications with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Lumen attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as routing, database abstraction, queueing, and caching.
+Para contemplar os requisitos desse desafio, foi desenvolvido uma API para um sistema de divulgação de vagas de emprego para DEVS,
+onde é possível criar e procurar vagas.
 
-## Official Documentation
+## 1 - Framework
 
-Documentation for the framework can be found on the [Lumen website](https://lumen.laravel.com/docs).
+Para esse desafio foi escolhido o framework PHP [Lumen](https://lumen.laravel.com/docs), um micro-framework do [Laravel](https://laravel.com/docs/contributions).
 
-## Contributing
+O laravel é um framework super completo, porém o lumen é uma versão mais enxuta, trazendo apenas as principais features
+necessárias para o desenvolvimento de uma API, visando isso, o escolhi para solucionar esse desafio.
 
-Thank you for considering contributing to Lumen! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## 2 - Features realizadas
+
+- Endpoint para cadastro de usuario :grapes:
+
 
 ## Security Vulnerabilities
 
