@@ -39,7 +39,7 @@ class LocationController extends Controller
      *     name="page",
      *     required=true,
      *     description="Numero da pagina",
-     *     in="path",
+     *     in="query",
      *     @OA\Schema(
      *         type="integer"
      *      )

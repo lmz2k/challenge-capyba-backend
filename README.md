@@ -173,6 +173,7 @@ pronto agora o projeto está 100% configurado e basta usar e abusar dos EP para 
 
 [Coleção no postaman](https://www.getpostman.com/collections/6baa49b7d461c37a0df4)
 
-[Deploy](https://www.getpostman.com/collections/6baa49b7d461c37a0df4)
+[Deploy -> https://capyba-challenge.herokuapp.com](https://capyba-challenge.herokuapp.com/api/check)
 
-[SWAGGER on deploy](https://www.getpostman.com/collections/6baa49b7d461c37a0df4)
+[Documentação SWAGGER da API](http://capyba-challenge.herokuapp.com/api/documentation)
+

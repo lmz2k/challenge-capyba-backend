@@ -286,7 +286,7 @@
                     },
                     {
                         "name": "page",
-                        "in": "path",
+                        "in": "query",
                         "description": "Numero da pagina",
                         "required": true,
                         "schema": {
