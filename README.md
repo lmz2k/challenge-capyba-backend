@@ -88,7 +88,7 @@ comando, e entrar na pasta do projeto
 ```sh 
 git clone https://github.com/lmz2k/challenge-capyba-backend.git
 
-challenge-capyba-backend
+cd ./challenge-capyba-backend
 ```
 
 ###3 - Instalar dependencias
