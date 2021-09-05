@@ -73,7 +73,13 @@ e também editar dados da sua conta como, nome, email e foto.
 
 ## 5 - Setup
 
-### 1 - Instalar o PHP e o composer
+### 1 - Instalar o PHP 7.4 e o composer
+
+Como não tenho conhecimento em qual SO irá ser execultado, deixarei o link para documentação oficial.
+
+[Instalar PHP](https://www.php.net/manual/pt_BR/install.php)
+
+[Instalar COMPOSER](https://getcomposer.org/doc/00-intro.md)
 
 ### 2 - Baixar o projeto para maquina
 Pode ser feito o download do ZIP pelo proprio github, ou pelo terminal via linha de
