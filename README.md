@@ -57,6 +57,8 @@ filtros e ordenações da listagem anterior.
 Ainda na área restrita o usuário consegue alterar a senha de sua conta, precisando confirmar sua senha atual,
 e também editar dados da sua conta como, nome, email e foto.
 
+É possivel realizar logout, que desvalida o token do usuario.
+
 ## 4 - Estrutura do projeto
 
 | Diretório | Responsabilidade |
