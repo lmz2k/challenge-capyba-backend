@@ -57,3 +57,17 @@ filtros e ordenações da listagem anterior.
 Ainda na área restrita o usuário consegue alterar a senha de sua conta, precisando confirmar sua senha atual,
 e também editar dados da sua conta como, nome, email e foto.
 
+## 4 - Estrutura do projeto
+
+| Diretório | Responsabilidade |
+| --------  | ---------------- |
+| **/database** |  *Migrations e Seeders do projeto* |
+| **/routes**   |  *Declaração dos endpoints* |
+| **/tests**    |  *Testes do sistema* |
+| **/app/Exception** | *Exceções customizadas* |
+| **/app/Http/Controllers** | *Controllers da aplicação* |
+| **/app/Http/Middleware**  | *Middlewares da aplicação* |
+| **/app/Models** | *Modelos dos objetos da aplicação* |
+| **/app/Repositories** | *Repositórios que comunicam diretamente com database*
+| **/app/Services** | *Serviços responsáveis por gerir a regra de negócio da aplicação* |
+
