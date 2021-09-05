@@ -5,7 +5,7 @@ return [
         'PDF' => Barryvdh\DomPDF\Facade::class,
     ],
 
-    'key' => env('APP_KEY', 'HqaujguiBrhEyAMyOBUz/PCGFTtFJYcXKW1CnFAUldo='),
+    'key' => '0gFMDZPbCvolpo/8GXH/+SRkN74LJqPMxR/dLYbwZRk=',
 
     'cipher' => 'AES-256-CBC',
 ];
