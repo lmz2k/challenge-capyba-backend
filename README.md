@@ -103,13 +103,13 @@ composer install
 
 Existe um arquivo na raiz do projeto chamado `.env.example`, basta renomeá-lo para apenas `.env` ou criar uma cópia dele.
 
-Algumas variáveis estão sem valores, esses valores foram enviados em um arquivos TXT junto com email de entrega do desafio,
+Algumas variáveis estão sem valores, esses valores foram enviados em um DOC junto com email de entrega do desafio,
 é necessário substituir essas variáveis, pelas que estão nesse arquivo recebido via email, para que funcione tudo como deveria
 (upload de imagem, envio de email e conexão com banco de dados).
 
 As variáveis relacionadas ao banco de dados, são as únicas que podem ser alteradas caso desejem
-utilizar um banco de dados próprio, porém o banco que enviei para vocês, já é um banco meu que está pronto para funcionar.
-
+utilizar um banco de dados próprio, porém já deixei um banco criado para vocês apontarem e rodarem as migrations, seeders e usuarem, podem
+utiliza-lo.
 ### 5 - Migrations e Seeders
 
 Primeiramente rodar migrations
