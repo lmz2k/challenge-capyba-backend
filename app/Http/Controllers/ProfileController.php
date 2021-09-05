@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\WrongPasswordException;
 use App\Services\Profile\ProfileServiceInterface;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -95,6 +96,14 @@ class ProfileController extends Controller
 
             return response()->json($result, 200);
         } catch (\Exception $e) {
+
+            if($e instanceof QueryException){
+                return response()->json(
+                    ['message' => 'Email already registered on system'],
+                    409
+                );
+            };
+
             return response()->json(
                 ['message' => 'Internal error'],
                 500

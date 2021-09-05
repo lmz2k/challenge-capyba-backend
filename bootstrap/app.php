@@ -120,6 +120,11 @@ $app->router->group(
     ],
     function ($router) {
         require __DIR__ . '/../routes/web.php';
+        require __DIR__ . '/../routes/auth.php';
+        require __DIR__ . '/../routes/location.php';
+        require __DIR__ . '/../routes/profile.php';
+        require __DIR__ . '/../routes/vacancy.php';
+        require __DIR__ . '/../routes/code.php';
     }
 );
 
@@ -127,6 +132,7 @@ $app->configure('mail');
 $app->configure('services');
 $app->register(Illuminate\Mail\MailServiceProvider::class);
 $app->register(\Barryvdh\DomPDF\ServiceProvider::class);
+$app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
 
 unset($app->availableBindings['mailer']);
 
