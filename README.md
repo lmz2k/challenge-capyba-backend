@@ -137,7 +137,7 @@ php artisan db:seed --class=UserSeeder
 php artisan db:seed --class=VacanciesSeeder
 ```
 
-##6 - Rodar o projeto
+## 6 - Rodar o projeto
 
 Nessa etapa iremos rodar o projeto, e rodar os tests do sistema.
 
@@ -161,7 +161,7 @@ agora podemos rodar os testes para validar que o setup foi bem sucedido,  execul
 
 pronto agora o projeto está 100% configurado e basta usar e abusar dos EP para testar as funcionalidade xD
 
-##7 - Links
+## 7 - Links
 
 [Coleção no postaman](https://www.getpostman.com/collections/6baa49b7d461c37a0df4)
 
