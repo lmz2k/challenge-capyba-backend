@@ -93,13 +93,13 @@ git clone https://github.com/lmz2k/challenge-capyba-backend.git
 cd ./challenge-capyba-backend
 ```
 
-###3 - Instalar dependencias
+### 3 - Instalar dependencias
 
 ```shell
 composer install
 ```
 
-###4 - Configurar variáveis de ambiente
+### 4 - Configurar variáveis de ambiente
 
 Existe um arquivo na raiz do projeto chamado .env.example, basta renomeá-lo para apenas .env ou criar uma cópia dele.
 
@@ -110,7 +110,7 @@ Algumas variáveis estão sem valores, esses valores foram enviados em um arquiv
 As variáveis relacionadas ao banco de dados, são as únicas que podem ser alteradas caso desejem
 utilizar um banco de dados próprio, porém o banco que enviei para vocês, já é um banco meu que está pronto para funcionar.
 
-###5 - Migrations e Seeders
+### 5 - Migrations e Seeders
 
 Primeiramente rodar migrations
 
