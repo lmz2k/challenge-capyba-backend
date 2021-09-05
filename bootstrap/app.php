@@ -132,6 +132,7 @@ $app->configure('mail');
 $app->configure('services');
 $app->register(Illuminate\Mail\MailServiceProvider::class);
 $app->register(\Barryvdh\DomPDF\ServiceProvider::class);
+$app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
 
 unset($app->availableBindings['mailer']);
 
