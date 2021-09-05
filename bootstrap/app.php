@@ -120,6 +120,11 @@ $app->router->group(
     ],
     function ($router) {
         require __DIR__ . '/../routes/web.php';
+        require __DIR__ . '/../routes/auth.php';
+        require __DIR__ . '/../routes/location.php';
+        require __DIR__ . '/../routes/profile.php';
+        require __DIR__ . '/../routes/vacancy.php';
+        require __DIR__ . '/../routes/code.php';
     }
 );
 

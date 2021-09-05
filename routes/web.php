@@ -4,41 +4,8 @@
 
 
 $router->group(['prefix' => 'api'], function () use ($router) {
-
-        $router->get('/location', 'LocationController@searchCity');
-
-        $router->group(['prefix' => 'auth'], function () use ($router) {
-            $router->post('/register', 'AuthController@register');
-            $router->post('/login', 'AuthController@login');
-            $router->get('/privacy/policy', 'AuthController@privacyPolicy');
-
-            $router->group(['middleware' => 'auth',], function () use ($router) {
-                $router->post('/logout', 'AuthController@logout');
-            });
-
-            $router->group(['prefix' => 'code'], function () use ($router) {
-                $router->post('/resend', 'AuthController@resendCode');
-
-                $router->group(['middleware' => 'code',], function () use ($router) {
-                    $router->post('/confirm', 'AuthController@confirmCode');
-                });
-
-            });
-        });
-
-        $router->group(['middleware' => 'auth', 'prefix' => 'profile'], function () use ($router) {
-            $router->post('/', 'ProfileController@update');
-            $router->post('/password', 'ProfileController@changePassword');
-        });
-
-        $router->group(['prefix' => 'vacancy'], function () use ($router) {
-            $router->get('/', 'VacanciesController@getVacancies');
-
-            $router->group(['middleware' => 'auth'], function () use ($router) {
-                    $router->post('/', 'VacanciesController@createVacancy');
-                    $router->get('/my', 'VacanciesController@getVacancies');
-                }
-            );
+        $router->get('/check', function () use ($router) {
+            return $router->app->version();
         });
     }
 );
