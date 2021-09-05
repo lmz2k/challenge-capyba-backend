@@ -71,3 +71,100 @@ e também editar dados da sua conta como, nome, email e foto.
 | **/app/Repositories** | *Repositórios que comunicam diretamente com database*
 | **/app/Services** | *Serviços responsáveis por gerir a regra de negócio da aplicação* |
 
+## 5 - Setup
+
+### 1 - Instalar o PHP e o composer
+
+### 2 - Baixar o projeto para maquina
+Pode ser feito o download do ZIP pelo proprio github, ou pelo terminal via linha de
+comando, e entrar na pasta do projeto
+
+```sh 
+git clone https://github.com/lmz2k/challenge-capyba-backend.git
+
+challenge-capyba-backend
+```
+
+###3 - Instalar dependencias
+
+```shell
+composer install
+```
+
+###4 - Configurar variáveis de ambiente
+
+Existe um arquivo na raiz do projeto chamado .env.example, basta renomeá-lo para apenas .env ou criar uma cópia dele.
+
+Algumas variáveis estão sem valores, esses valores foram enviados em um arquivos TXT junto com email de entrega do desafio,
+é necessário substituir essas variáveis, pelas que estão nesse arquivo recebido via email, para que funcione tudo como deveria
+(upload de imagem, envio de email e conexão com banco de dados).
+
+As variáveis relacionadas ao banco de dados, são as únicas que podem ser alteradas caso desejem
+utilizar um banco de dados próprio, porém o banco que enviei para vocês, já é um banco meu que está pronto para funcionar.
+
+###5 - Migrations e Seeders
+
+Primeiramente rodar migrations
+
+
+```shell
+php artisan migrate
+```
+
+Existem 4 Seeders no projeto, que são:
+
+- Seed de estados (Obrigatória), para popular a tabela de estados do sistema.
+- Seed de cidades (Obrigatória), para popular a tabela de cidades do sistema.
+
+Para roda-las,  use os seguintes comandos
+
+```shell
+php artisan db:seed --class=StateSeeder
+
+php artisan db:seed --class=CitySeeder
+```
+
+Existem outras duas seeds no projeto:
+
+- Seed de Usuários (Opcional), para popular a usuários com algumas contas por default.
+- Seed de Vagas (Opcional), para popular a tabela de vagas com vagas aleatórias ( importante que essa seed pode ser
+  executada N vezes, porém antes de executá-la, a seed de usuários tem que ter sido executada pelo menos 1 vez)
+
+
+```shell
+php artisan db:seed --class=UserSeeder
+
+php artisan db:seed --class=VacanciesSeeder
+```
+
+##6 - Rodar o projeto
+
+Nessa etapa iremos rodar o projeto, e rodar os tests do sistema.
+
+para inicializar o projeto digite:
+
+```shell
+ php -S localhost:8000 public/index.php   
+```
+
+com o projeto rodando, podemos visualizar documentação do **swagger** no seguinte link:
+
+```shell
+http://localhost:8000/api/documentation
+```
+
+agora podemos rodar os testes para validar que o setup foi bem sucedido,  execulte o comando:
+
+```shell
+./vendor/bin/phpunit 
+```
+
+pronto agora o projeto está 100% configurado e basta usar e abusar dos EP para testar as funcionalidade xD
+
+##7 - Links
+
+[Coleção no postaman](https://www.getpostman.com/collections/6baa49b7d461c37a0df4)
+
+[Deploy](https://www.getpostman.com/collections/6baa49b7d461c37a0df4)
+
+[SWAGGER on deploy](https://www.getpostman.com/collections/6baa49b7d461c37a0df4)
