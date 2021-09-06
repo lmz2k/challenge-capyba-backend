@@ -169,6 +169,9 @@ agora podemos rodar os testes para validar que o setup foi bem sucedido,  execul
 
 pronto agora o projeto está 100% configurado e basta usar e abusar dos EP para testar as funcionalidade xD
 
+Observações: O upload de arquivo pelo swagger no ambiente de deploy, está acusando erro 500, não consegui investigar o 
+suficiente para resolver,  porém localmente, está funcionando tudo ok. 
+
 ## 7 - Links
 
 [Coleção no postaman](https://www.getpostman.com/collections/6baa49b7d461c37a0df4)
