@@ -3,7 +3,7 @@
 return [
     'disks' => [
         'app' => [
-            'driver' => env('APP_ENV', 'production'),
+            'driver' => 'local',
             'root' => storage_path().'/app'
         ],
         'ftp' => [
